@@ -23,7 +23,6 @@ gem 'haml-rails'
 
 group :development do
   gem 'guard'
-  gem 'guard-rails'
   gem 'guard-rspec'
 end
 
