@@ -8,8 +8,7 @@ class SkillsController < ApplicationController
   end
 
   def create
-    @skill = Skill.new(skill_params)
-    @skill.save!
+    @skill = Skill.create!(skill_params)
     redirect_to @skill
   rescue ActiveRecord::RecordInvalid
     existing_skill = Skill.find_by_name(skill_params['name'])

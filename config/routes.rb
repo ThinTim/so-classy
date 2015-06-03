@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create, :show]
   resources :skills, only: [ :index, :new, :create, :show ]
 
   # The priority is based upon order of creation: first created -> highest priority.

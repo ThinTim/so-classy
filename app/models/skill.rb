@@ -1,3 +1,3 @@
 class Skill < ActiveRecord::Base
-  validates :name, uniqueness: true
+  validates_uniqueness_of :name
 end
