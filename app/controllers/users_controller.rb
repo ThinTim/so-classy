@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create!(user_params)
+    cookies[:user_id] = { :value => @user.id, :expires => 1.year.from_now }
     redirect_to(@user)
   rescue ActiveRecord::RecordInvalid
     existing_user = User.find_by_email(user_params[:email])

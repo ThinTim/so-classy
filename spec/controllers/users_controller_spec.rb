@@ -12,6 +12,12 @@ describe UsersController, type: :controller do
 
   describe 'POST #create' do
 
+    it 'should create user_id cookie' do
+      post :create, user: { name: 'Dave', email: 'dave@example.com' }
+
+      expect(cookies[:user_id]).to eq assigns(:user).id
+    end
+
     context 'when user is new' do
 
       it 'should create user' do

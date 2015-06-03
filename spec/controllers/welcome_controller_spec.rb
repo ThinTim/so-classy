@@ -18,7 +18,7 @@ describe WelcomeController, type: :controller do
 
       before :each do
         @user = User.create(name: 'Jim', email: 'jim@example.com')
-        cookies['user_id'] = @user.id
+        cookies[:user_id] = @user.id
       end
 
       it 'should redirect to user stored in cookie' do
