@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
 
   def create
+    reset_session
+    
     @user = User.create!(user_params)
-    cookies[:user_id] = { value: @user.id, expires: 1.year.from_now }
+    session[:user_id] = @user.id
     redirect_to(:root)
   rescue ActiveRecord::RecordInvalid
     existing_user = User.find_by_email(user_params[:email])
-    cookies[:user_id] = { value: existing_user.id, expires: 1.year.from_now }
+    session[:user_id] = existing_user.id
     redirect_to(:root)
   end
 

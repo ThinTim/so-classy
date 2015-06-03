@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe UsersController, type: :controller do
 
-  describe 'POST #create' do
+  describe 'POST #login' do
 
     context 'when user is new' do
 
@@ -18,7 +18,7 @@ describe UsersController, type: :controller do
       it 'should create user_id cookie' do
         post :create, user: { name: 'Dave', email: 'dave@example.com' }
 
-        expect(cookies[:user_id]).to eq assigns(:user).id
+        expect(session[:user_id]).to eq assigns(:user).id
       end
 
       it 'should redirect to root' do
@@ -41,10 +41,10 @@ describe UsersController, type: :controller do
         end
       end
 
-      it 'should create user_id cookie' do
+      it 'should set user_id in session' do
         post :create, user: { name: 'Dave', email: 'dave@example.com' }
 
-        expect(cookies[:user_id]).to eq @existing_user.id
+        expect(session[:user_id]).to eq @existing_user.id
       end
 
       it 'should redirect to root' do

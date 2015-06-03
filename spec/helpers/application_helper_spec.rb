@@ -18,7 +18,7 @@ describe ApplicationHelper, type: :helper do
 
       before :each do
         @user = User.create(name: 'Jim', email: 'jim@example.com')
-        cookies[:user_id] = @user.id
+        session[:user_id] = @user.id
       end
 
       it 'should find user' do
