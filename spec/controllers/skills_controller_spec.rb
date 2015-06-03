@@ -32,19 +32,19 @@ describe SkillsController, type: :controller do
 
   describe 'POST #create' do
 
-    context 'when the skill is new' do
+    context 'when skill is new' do
 
       it 'should store the new skill' do
         post :create, skill: {
-            name: 'Knife Fighting'
+            name: 'Knife fighting'
         }
 
-        expect(Skill.find_by_name('Knife Fighting')).to_not be_nil
+        expect(assigns(:skill).name).to eq 'Knife fighting'
       end
 
       it 'should redirect to the new skill' do
         post :create, skill: {
-            name: 'Knife Knitting'
+            name: 'Knife knitting'
         }
 
         assert_redirected_to assigns(:skill)
@@ -52,7 +52,7 @@ describe SkillsController, type: :controller do
 
     end
 
-    context 'when the skill already exists' do
+    context 'when skill already exists' do
 
       before(:each) do
         @existing_skill = Skill.create({ name: 'Duplicating' })
