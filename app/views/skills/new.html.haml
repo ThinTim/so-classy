@@ -1,5 +1,6 @@
-=form_for :skill, url: skills_path do |form|
-  %p
-    = form.label(:name)
-    = form.text_field(:name)
-    = form.submit
+.skills
+  =form_for :skill, url: skills_path do |form|
+    %p
+      = form.label(:name)
+      = form.text_field(:name)
+      = form.submit
