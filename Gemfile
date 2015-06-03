@@ -24,18 +24,11 @@ gem 'haml-rails'
 group :development do
   gem 'guard'
   gem 'guard-rspec'
+  gem 'rspec-rails'
+  gem 'web-console', '~> 2.0'
+  gem 'byebug'
 end
 
 group :test do
-  gem 'assert_difference'
-end
-
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-  gem 'rspec-rails'
   gem 'assert_difference'
 end
