@@ -8,4 +8,14 @@
   = csrf_meta_tags
 
 %body
+  - if current_user
+    = current_user.name
+  - else
+    =form_for :user, url: users_path do |form|
+      %p
+        = form.label(:name)
+        = form.text_field(:name)
+        = form.label(:email)
+        = form.email_field(:email)
+        = form.submit
   = yield

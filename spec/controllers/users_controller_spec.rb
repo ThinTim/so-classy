@@ -2,21 +2,7 @@ require 'rails_helper'
 
 describe UsersController, type: :controller do
 
-  describe 'GET #new' do
-    it 'should return status 200' do
-      get :new
-
-      expect(response.status).to eq 200
-    end
-  end
-
   describe 'POST #create' do
-
-    it 'should create user_id cookie' do
-      post :create, user: { name: 'Dave', email: 'dave@example.com' }
-
-      expect(cookies[:user_id]).to eq assigns(:user).id
-    end
 
     context 'when user is new' do
 
@@ -29,10 +15,16 @@ describe UsersController, type: :controller do
         expect(assigns(:user).email).to eq 'dave@example.com'
       end
 
-      it 'should redirect to created user' do
+      it 'should create user_id cookie' do
         post :create, user: { name: 'Dave', email: 'dave@example.com' }
 
-        assert_redirected_to(assigns(:user))
+        expect(cookies[:user_id]).to eq assigns(:user).id
+      end
+
+      it 'should redirect to root' do
+        post :create, user: { name: 'Dave', email: 'dave@example.com' }
+
+        assert_redirected_to(:root)
       end
 
     end
@@ -49,23 +41,18 @@ describe UsersController, type: :controller do
         end
       end
 
-      it 'should redirect to existing user' do
+      it 'should create user_id cookie' do
         post :create, user: { name: 'Dave', email: 'dave@example.com' }
-        assert_redirected_to(@existing_user)
+
+        expect(cookies[:user_id]).to eq @existing_user.id
       end
 
-    end
+      it 'should redirect to root' do
+        post :create, user: { name: 'Dave', email: 'dave@example.com' }
 
-  end
+        assert_redirected_to(:root)
+      end
 
-  describe 'GET #show' do
-
-    let(:user) { User.create(name: 'Barry', email: 'barry@example.com') }
-
-    it 'should assign user' do
-      get :show, id: user.id
-
-      expect(assigns(:user)).to eq user
     end
 
   end
