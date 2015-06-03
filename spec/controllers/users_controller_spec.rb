@@ -52,4 +52,16 @@ describe UsersController, type: :controller do
 
   end
 
+  describe 'GET #show' do
+
+    let(:user) { User.create(name: 'Barry', email: 'barry@example.com') }
+
+    it 'should assign user' do
+      get :show, id: user.id
+
+      expect(assigns(:user)).to eq user
+    end
+
+  end
+
 end

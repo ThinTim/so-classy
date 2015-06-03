@@ -77,15 +77,13 @@ describe SkillsController, type: :controller do
   end
 
   describe 'GET #show' do
+
+    let(:skill) { Skill.create({ name: 'Banjo' }) }
     
-    before(:each) do
-      @existing_skill = Skill.create({ name: 'A Skill' })
-    end
-
     it 'should make the skill available' do
-      get :show, id: @existing_skill.id
+      get :show, id: skill.id
 
-      expect(assigns(:skill)).to eq @existing_skill
+      expect(assigns(:skill)).to eq skill
     end
 
   end

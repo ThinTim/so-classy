@@ -11,6 +11,11 @@ class UsersController < ApplicationController
     redirect_to(existing_user) unless existing_user.nil?
   end
 
+  def show
+    @user = User.find(params[:id])
+    render nothing: true
+  end
+
 private
 
   def user_params
