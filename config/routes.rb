@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   get 'skills/index'
 
-  resources :skills, only: [ :index, :new, :create ]
+  resources :skills, only: [ :index, :new, :create, :show ]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

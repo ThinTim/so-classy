@@ -7,15 +7,15 @@ class SkillsController < ApplicationController
   end
 
   def create
-    existing = Skill.find_by_name(skill_params["name"])
+    @skill = Skill.new(skill_params)
+    @skill.save!
+    redirect_to @skill
+  rescue ActiveRecord::RecordInvalid
+    existing_skill = Skill.find_by_name(skill_params['name'])
+    redirect_to(existing_skill) unless existing_skill.nil?
+  end
 
-    if existing != nil
-      render :nothing => true, :status => :ok
-    else
-      @skill = Skill.new(skill_params)
-      @skill.save
-      render :nothing => true, :status => :created
-    end
+  def show
   end
 
   private

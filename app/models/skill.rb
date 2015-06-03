@@ -1,10 +1,3 @@
 class Skill < ActiveRecord::Base
-
-  def to_s
-    name
-  end
-
-  def inspect
-    "<Skill:#{name}>"
-  end
+  validates :name, uniqueness: true
 end

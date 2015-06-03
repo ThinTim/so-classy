@@ -32,15 +32,7 @@ describe SkillsController, type: :controller do
 
   describe 'POST #create' do
 
-    describe 'when successful' do
-
-      it 'should return status 201' do
-        post :create, skill: {
-            name: 'Knitting'
-        }
-
-        expect(response.status).to eq 201
-      end
+    context 'when the skill is new' do
 
       it 'should store the new skill' do
         post :create, skill: {
@@ -50,32 +42,52 @@ describe SkillsController, type: :controller do
         expect(Skill.find_by_name('Knife Fighting')).to_not be_nil
       end
 
+      it 'should redirect to the new skill' do
+        post :create, skill: {
+            name: 'Knife Knitting'
+        }
+
+        assert_redirected_to assigns(:skill)
+      end
+
     end
 
     context 'when the skill already exists' do
 
       before(:each) do
-        Skill.create({ name: 'Duplicating' })
+        @existing_skill = Skill.create({ name: 'Duplicating' })
       end
 
-      it 'should return status 200' do
+      it 'should redirect the user to the skill' do
         post :create, skill: {
             name: 'Duplicating'
         }
 
-        expect(response.status).to eq 200
+        assert_redirected_to(@existing_skill) 
       end
 
       it 'should not create a duplicate skill' do
-        size_after_first_post = Skill.all.size
-
-        post :create, skill: {
-            name: 'Duplicating'
-        }
-
-        expect(Skill.all.size).to eq size_after_first_post
+        assert_difference 'Skill.count', 0 do
+          post :create, skill: { name: 'Duplicating' }
+        end
       end
 
+    end
+
+  end
+
+  describe 'GET #show' do
+    
+    context 'the skill exists' do
+      before(:each) do
+        @existing_skill = Skill.create({ name: 'A Skill' })
+      end
+
+      it 'should make the skill available' do
+        get :show, id: @existing_skill.id
+
+        expect(assigns(:skill)).to eq @existing_skill
+      end
     end
 
   end
