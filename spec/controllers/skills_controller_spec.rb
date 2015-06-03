@@ -34,7 +34,7 @@ describe SkillsController, type: :controller do
 
     describe 'when successful' do
 
-      xit 'should return status 201' do
+      it 'should return status 201' do
         post :create, skill: {
             name: 'Knitting'
         }
@@ -42,22 +42,40 @@ describe SkillsController, type: :controller do
         expect(response.status).to eq 201
       end
 
-      xit 'should store the new skill' do
+      it 'should store the new skill' do
         post :create, skill: {
             name: 'Knife Fighting'
         }
+
+        expect(Skill.find_by_name('Knife Fighting')).to_not be_nil
       end
 
     end
 
-    describe 'when the skill already exists' do
-      it 'should return status ???' do
+    context 'when the skill already exists' do
 
+      before(:each) do
+        Skill.create({ name: 'Duplicating' })
       end
 
-      it 'should not store a duplicate skill' do
+      it 'should return status 200' do
+        post :create, skill: {
+            name: 'Duplicating'
+        }
 
+        expect(response.status).to eq 200
       end
+
+      it 'should not create a duplicate skill' do
+        size_after_first_post = Skill.all.size
+
+        post :create, skill: {
+            name: 'Duplicating'
+        }
+
+        expect(Skill.all.size).to eq size_after_first_post
+      end
+
     end
 
   end
