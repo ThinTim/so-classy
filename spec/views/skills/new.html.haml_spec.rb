@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'skills/new.html.haml', type: :view do
 
-  it 'should contain a form' do
+  it 'should display a form' do
     render
 
     assert_select('form[action="/skills"][method="post"]')
