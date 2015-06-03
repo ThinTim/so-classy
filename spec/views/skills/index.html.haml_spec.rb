@@ -8,7 +8,7 @@ describe 'skills/index.html.haml', type: :view do
 
     render
 
-    assert_select('.skill', 'Ruby')
+    expect(rendered).to include 'Ruby'
   end
 
 end
