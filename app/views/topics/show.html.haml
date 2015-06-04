@@ -2,3 +2,17 @@
 
 = form_tag(add_teacher_topic_path(@topic.id), class: "navbar-form") do |form|
   %button.btn.btn-default{type: "submit"} I can teach this!
+
+
+%h2 Teachers:
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Name
+        %th Email
+    %tbody.text-left
+      - @topic.teachers.each do |teacher|
+        %tr
+          %td= teacher.name
+          %td= teacher.email
