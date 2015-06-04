@@ -1,0 +1,11 @@
+- if current_user
+  = current_user.name
+  = button_to( "Logout", :action => "logout", :controller => "users" )
+- else
+  =form_for :user, url: :login do |form|
+    %p
+      = form.label(:name)
+      = form.text_field(:name)
+      = form.label(:email)
+      = form.email_field(:email)
+      = form.submit
