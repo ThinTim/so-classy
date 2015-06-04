@@ -1,5 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Skill, type: :model do
+
+RSpec.describe TopicsHelper, type: :helper do
   pending "add some examples to (or delete) #{__FILE__}"
 end
