@@ -11,4 +11,12 @@ describe 'topics/index.html.haml', type: :view do
     expect(rendered).to include 'Ruby'
   end
 
+  it 'should contain a link to #new' do
+    assign(:topics, [])
+
+    render
+
+    assert_select('a[href="/topics/new"]')
+  end
+
 end

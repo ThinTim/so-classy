@@ -8,6 +8,8 @@
   = csrf_meta_tags
 
 %body
-  = render 'auth'
-
-  = yield
+  %nav.navbar.navbar-default
+    .container-fluid
+      = render 'auth'
+  .container
+    = yield

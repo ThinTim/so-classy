@@ -1,8 +1,10 @@
 - if current_user
-  = current_user.name
-  = button_to( "Logout", :action => "logout", :controller => "users" )
+  .navbar-right
+    = form_tag({action: "logout", controller: "users"}, class: "navbar-form") do |form|
+      %p.form-control-static= "Signed in as " + current_user.name
+      %button.btn.btn-default{type: "submit"} Logout
 - else
-  =form_for :user, url: :login do |form|
+  = form_for :user, url: :login do |form|
     %p
       = form.label(:name)
       = form.text_field(:name)
