@@ -6,8 +6,9 @@ describe 'application/_auth.html.haml', type: :view do
 
     before(:each) do
       @user = User.new name: 'Tim', email: 'tim@tim.com'
-      @user.save!
-      session[:user_id] = @user.id
+
+      allow(view).to receive(:current_user).and_return(@user)
+      
       render
     end
 
@@ -24,7 +25,8 @@ describe 'application/_auth.html.haml', type: :view do
   context 'the user is not logged in' do
     
     before(:each) do
-      session[:user_id] = nil
+      allow(view).to receive(:current_user).and_return(nil)
+
       render
     end
 

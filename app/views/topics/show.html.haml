@@ -1,2 +1,4 @@
-.topics
-  %h1= @topic.name
+%h1= @topic.name
+
+= form_tag(add_teacher_topic_path(@topic.id), class: "navbar-form") do |form|
+  %button.btn.btn-default{type: "submit"} I can teach this!

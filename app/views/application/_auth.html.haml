@@ -1,6 +1,6 @@
 - if current_user
   .navbar-right
-    = form_tag({action: "logout", controller: "users"}, class: "navbar-form") do |form|
+    = form_tag(:logout, class: "navbar-form") do |form|
       %p.form-control-static= "Signed in as " + current_user.name
       %button.btn.btn-default{type: "submit"} Logout
 - else

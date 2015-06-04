@@ -19,6 +19,13 @@ class TopicsController < ApplicationController
     @topic = Topic.find(params[:id])
   end
 
+  def add_teacher
+    topic = Topic.find(params[:id])
+    topic.teachers << current_user
+    topic.save!
+    redirect_to(topics_url)
+  end
+
 private
 
   def topic_params

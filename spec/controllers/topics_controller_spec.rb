@@ -88,4 +88,26 @@ describe TopicsController, type: :controller do
 
   end
 
+  describe 'POST #add_teacher' do
+    context 'the user is logged in' do
+      before(:each) do
+        @existing_topic = Topic.create(name: 'Jimmying')
+        @current_user = User.create(name: 'Jimmy')
+        session[:user_id] = @current_user.id
+      end
+      
+      it 'should add the current user to the list of teachers for the skill' do
+        post :add_teacher, id: @existing_topic.id
+
+        expect(@existing_topic.teachers).to include @current_user
+      end
+
+      it 'should redirect to skills index' do
+        post :add_teacher, id: @existing_topic.id
+
+        assert_redirected_to topics_url
+      end
+    end
+  end
+
 end
