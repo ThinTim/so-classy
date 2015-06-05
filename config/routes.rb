@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :topics, only: [:index, :new, :create, :show] do
     post 'add_teacher', on: :member
+    post 'add_student', on: :member
   end
 
   post 'users/login', :to => 'users#login', :as => :login

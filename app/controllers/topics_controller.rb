@@ -26,6 +26,13 @@ class TopicsController < ApplicationController
     redirect_to(topics_url)
   end
 
+  def add_student
+    topic = Topic.find(params[:id])
+    topic.students << current_user
+    topic.save!
+    redirect_to(topics_url)
+  end
+
 private
 
   def topic_params

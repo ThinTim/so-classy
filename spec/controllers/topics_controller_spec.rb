@@ -96,7 +96,7 @@ describe TopicsController, type: :controller do
         session[:user_id] = @current_user.id
       end
       
-      it 'should add the current user to the list of teachers for the skill' do
+      it 'should add current user to teachers' do
         post :add_teacher, id: @existing_topic.id
 
         expect(@existing_topic.teachers).to include @current_user
@@ -106,6 +106,28 @@ describe TopicsController, type: :controller do
         post :add_teacher, id: @existing_topic.id
 
         assert_redirected_to topics_url
+      end
+    end
+  end
+
+  xdescribe 'POST #add_student' do
+    context 'the user is logged in' do
+      before :each do
+        @existing_topic = Topic.create(name: 'Jimmying')
+        @current_user = User.create(name: 'Jimmy')
+        session[:user_id] = @current_user.id
+      end
+
+      it 'should add current user to learners' do
+        post :add_student, id: @existing_topic.id
+
+        expect(@existing_topic.students).to include @current_user
+      end
+
+      it 'should not affect the list of teachers' do
+        assert_difference 'Topic.find(@existing_topic.id).teachers.size', 0 do
+          post :add_student, id: @existing_topic.id
+        end
       end
     end
   end

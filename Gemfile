@@ -28,6 +28,8 @@ group :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'rspec-rails'
+  gem 'guard-livereload', '~> 2.4', require: false
+  gem 'rack-livereload'
   gem 'web-console', '~> 2.0'
   gem 'byebug'
 end

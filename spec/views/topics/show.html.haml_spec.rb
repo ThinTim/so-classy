@@ -6,7 +6,8 @@ describe 'topics/show.html.haml', type: :view do
     Topic.new(
         name: 'Ruby', 
         id: 42,
-        teachers: [User.new(name: 'Jimmy', email: 'jimmy@example.com')]
+        teachers: [User.new(name: 'Jimmy', email: 'jimmy@example.com')],
+        # students: [User.new(name: 'Timmy', email: 'timmy@example.com')]
       ) 
   }
 
@@ -33,6 +34,23 @@ describe 'topics/show.html.haml', type: :view do
 
     expect(rendered).to include 'Jimmy'
     expect(rendered).to include 'jimmy@example.com'
+  end
+
+  it 'should have a learn button' do
+    assign(:topic, ruby_topic)
+
+    render
+
+    assert_select('button', 'I want to learn this!')
+  end
+
+  xit 'should list students' do
+    assign(:topic, ruby_topic)
+
+    render
+
+    expect(rendered).to include 'Timmy'
+    expect(rendered).to include 'timmy@example.com'
   end
 
 end
