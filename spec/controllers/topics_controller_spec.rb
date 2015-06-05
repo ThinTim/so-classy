@@ -102,10 +102,10 @@ describe TopicsController, type: :controller do
         expect(@existing_topic.teachers).to include @current_user
       end
 
-      it 'should redirect to skills index' do
+      it 'should reload page' do
         post :add_teacher, id: @existing_topic.id
 
-        assert_redirected_to topics_url
+        assert_redirected_to @existing_topic
       end
     end
   end
@@ -122,6 +122,12 @@ describe TopicsController, type: :controller do
         post :add_student, id: @existing_topic.id
 
         expect(@existing_topic.students).to include @current_user
+      end
+
+      it 'should reload page' do
+        post :add_teacher, id: @existing_topic.id
+
+        assert_redirected_to @existing_topic
       end
     end
   end

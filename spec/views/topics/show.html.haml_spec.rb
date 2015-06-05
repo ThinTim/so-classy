@@ -12,6 +12,14 @@ describe 'topics/show.html.haml', type: :view do
     expect(rendered).to include 'Ruby'
   end
 
+  it 'should have a back to topics button' do
+    assign(:topic, ruby_topic)
+
+    render
+
+    assert_select('a[href="/topics"]')
+  end
+
   describe 'teaching' do
 
     let(:java_topic) {

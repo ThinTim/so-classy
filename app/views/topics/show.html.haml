@@ -1,15 +1,18 @@
 
-.col-xs-12
-  %h1.text-center= @topic.name
+.col-xs-12.col-md-10.col-md-offset-1
+  .row
+    .col-xs-12
+      %h1= @topic.name
+      = link_to 'Back', topics_path
 
-.col-xs-6
-  %h2 Teachers
-  = form_tag(add_teacher_topic_path(@topic.id)) do |form|
-    %button.btn.btn-lg.btn-default{type: "submit"} Volunteer
-  = render partial: 'application/people', locals: { people: @topic.teachers }
+    .col-xs-6
+      %h2 Teachers
+      = form_tag(add_teacher_topic_path(@topic.id)) do |form|
+        %button.btn.btn-lg.btn-default{type: "submit"} Volunteer
+      = render partial: 'application/people', locals: { people: @topic.teachers }
 
-.col-xs-6
-  %h2 Students
-  = form_tag(add_student_topic_path(@topic.id)) do |form|
-    %button.btn.btn-lg.btn-default{type: "submit"} Enroll
-  = render partial: 'application/people', locals: { people: @topic.students }
+    .col-xs-6
+      %h2 Students
+      = form_tag(add_student_topic_path(@topic.id)) do |form|
+        %button.btn.btn-lg.btn-default{type: "submit"} Enroll
+      = render partial: 'application/people', locals: { people: @topic.students }

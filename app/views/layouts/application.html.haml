@@ -13,4 +13,8 @@
     .container-fluid
       = render 'auth'
   .container
-    = yield
+    -if current_user
+      = yield
+    -else
+      .alert.alert-danger
+        %p Please Log In
