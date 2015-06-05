@@ -6,10 +6,10 @@
   %h2 Teachers
   = form_tag(add_teacher_topic_path(@topic.id)) do |form|
     %button.btn.btn-lg.btn-default{type: "submit"} Volunteer
-  = render partial: 'people', locals: { people: @topic.teachers }
+  = render partial: 'application/people', locals: { people: @topic.teachers }
 
 .col-xs-6
   %h2 Students
   = form_tag(add_student_topic_path(@topic.id)) do |form|
     %button.btn.btn-lg.btn-default{type: "submit"} Enroll
-  = render partial: 'people', locals: { people: @topic.students }
+  = render partial: 'application/people', locals: { people: @topic.students }

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe '_people.html.haml', type: :view do
+describe 'application/_people.html.haml', type: :view do
 
   it 'should display people' do
-    render partial: 'people', locals: { people: [User.new(name: 'Jimmy', email: 'jimmy@example.com')] }
+    render partial: 'application/people', locals: { people: [User.new(name: 'Jimmy', email: 'jimmy@example.com')] }
 
     # Names
     expect(rendered).to include 'Jimmy'

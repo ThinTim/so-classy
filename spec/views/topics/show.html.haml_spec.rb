@@ -27,7 +27,7 @@ describe 'topics/show.html.haml', type: :view do
 
       render
 
-      assert_select('button', 'I can teach this!')
+      assert_select('button', 'Volunteer')
     end
 
     it 'should list teachers' do
@@ -55,7 +55,7 @@ describe 'topics/show.html.haml', type: :view do
 
       render
 
-      assert_select('button', 'I want to learn this!')
+      assert_select('button', 'Enroll')
     end
 
     it 'should list students' do
