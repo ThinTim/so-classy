@@ -108,7 +108,7 @@ describe TopicsController, type: :controller do
         assert_redirected_to @existing_topic
       end
 
-      xcontext 'the user is already a teacher' do
+      context 'the user is already a teacher' do
         before(:each) do
           @existing_topic.teachers << @current_user
           @existing_topic.save!
@@ -149,14 +149,14 @@ describe TopicsController, type: :controller do
         assert_redirected_to @existing_topic
       end
 
-      xcontext 'the user is already a student' do
+      context 'the user is already a student' do
         before(:each) do
           @existing_topic.students << @current_user
           @existing_topic.save!
         end
 
         it 'should return status 409' do
-          post :add_teacher, id: @existing_topic.id
+          post :add_student, id: @existing_topic.id
 
           expect(response.status).to eq 409
         end

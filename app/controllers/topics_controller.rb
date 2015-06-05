@@ -24,6 +24,8 @@ class TopicsController < ApplicationController
     topic.teachers << current_user
     topic.save!
     redirect_to(topic)
+  rescue ActiveRecord::RecordInvalid
+    render nothing: true, status: 409
   end
 
   def add_student
@@ -31,6 +33,8 @@ class TopicsController < ApplicationController
     topic.students << current_user
     topic.save!
     redirect_to(topic)
+  rescue ActiveRecord::RecordInvalid
+    render nothing: true, status: 409
   end
 
 private
