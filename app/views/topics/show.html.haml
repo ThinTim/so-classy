@@ -1,13 +1,15 @@
-%h1= @topic.name
 
-= form_tag(add_teacher_topic_path(@topic.id), class: "navbar-form") do |form|
-  %button.btn.btn-default{type: "submit"} I can teach this!
+.col-xs-12
+  %h1.text-center= @topic.name
 
-= form_tag(add_student_topic_path(@topic.id), class: "navbar-form") do |form|
-  %button.btn.btn-default{type: "submit"} I want to learn this!
+.col-xs-6
+  %h2 Teachers
+  = form_tag(add_teacher_topic_path(@topic.id)) do |form|
+    %button.btn.btn-lg.btn-default{type: "submit"} Volunteer
+  = render partial: 'people', locals: { people: @topic.teachers }
 
-%h2 Teachers:
-= render partial: 'people', locals: { people: @topic.teachers }
-
-%h2 Students:
-= render partial: 'people', locals: { people: @topic.students }
+.col-xs-6
+  %h2 Students
+  = form_tag(add_student_topic_path(@topic.id)) do |form|
+    %button.btn.btn-lg.btn-default{type: "submit"} Enroll
+  = render partial: 'people', locals: { people: @topic.students }
