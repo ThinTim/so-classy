@@ -107,6 +107,25 @@ describe TopicsController, type: :controller do
 
         assert_redirected_to @existing_topic
       end
+
+      xcontext 'the user is already a teacher' do
+        before(:each) do
+          @existing_topic.teachers << @current_user
+          @existing_topic.save!
+        end
+
+        it 'should return status 409' do
+          post :add_teacher, id: @existing_topic.id
+
+          expect(response.status).to eq 409
+        end
+
+        it 'should prevent duplicates' do
+          assert_difference '@existing_topic.teachers.size', 0 do
+            post :add_teacher, id: @existing_topic.id
+          end
+        end
+      end
     end
   end
 
@@ -128,6 +147,25 @@ describe TopicsController, type: :controller do
         post :add_teacher, id: @existing_topic.id
 
         assert_redirected_to @existing_topic
+      end
+
+      xcontext 'the user is already a student' do
+        before(:each) do
+          @existing_topic.students << @current_user
+          @existing_topic.save!
+        end
+
+        it 'should return status 409' do
+          post :add_teacher, id: @existing_topic.id
+
+          expect(response.status).to eq 409
+        end
+
+        it 'should prevent duplicates' do
+          assert_difference '@existing_topic.students.size', 0 do
+            post :add_student, id: @existing_topic.id
+          end
+        end
       end
     end
   end
