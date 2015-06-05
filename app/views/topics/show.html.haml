@@ -20,15 +20,15 @@
           %td= teacher.name
           %td= teacher.email
 
--#%h2 Students:
--#.table-responsive
--#  %table.table.table-striped
--#    %thead
--#      %tr
--#        %th Name
--#        %th Email
--#    %tbody.text-left
--#      - @topic.students.each do |student|
--#        %tr
--#          %td= student.name
--#          %td= student.email
+%h2 Students:
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Name
+        %th Email
+    %tbody.text-left
+      - @topic.students.each do |student|
+        %tr
+          %td= student.name
+          %td= student.email

@@ -7,7 +7,7 @@ describe 'topics/show.html.haml', type: :view do
         name: 'Ruby', 
         id: 42,
         teachers: [User.new(name: 'Jimmy', email: 'jimmy@example.com')],
-        # students: [User.new(name: 'Timmy', email: 'timmy@example.com')]
+        students: [User.new(name: 'Timmy', email: 'timmy@example.com')]
       ) 
   }
 
@@ -44,7 +44,7 @@ describe 'topics/show.html.haml', type: :view do
     assert_select('button', 'I want to learn this!')
   end
 
-  xit 'should list students' do
+  it 'should list students' do
     assign(:topic, ruby_topic)
 
     render
