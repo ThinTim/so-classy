@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
     if not session[:user_id]
-      flash[:info] = 'Please log in'
+      flash[:danger] = 'Please log in'
       redirect_to(:root)
     end
   end

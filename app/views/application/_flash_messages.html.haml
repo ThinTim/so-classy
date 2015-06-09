@@ -1,0 +1,16 @@
+-flash.each do |msg_type, msg|
+  -case msg_type.to_sym
+  -when :success
+    -type = 'alert-success'
+  -when :error, :danger
+    -type = 'alert-danger'
+  -when :warn, :warning
+    -type = 'alert-warning'
+  -else
+    -type = 'alert-info'
+
+  .alert.alert-dismissable{ class: type }
+    %button.close{:type => 'button', 'data-dismiss' => 'alert', 'aria-label' => 'Close'}
+      %span{'aria-hidden' => 'true'}
+        &times
+    = msg

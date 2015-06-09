@@ -13,8 +13,5 @@
     .container-fluid
       = render 'auth'
   .container
-    -if current_user
-      = yield
-    -else
-      .alert.alert-danger
-        %p Please Log In
+    = render 'flash_messages'
+    = yield
