@@ -4,13 +4,23 @@ class UsersController < ApplicationController
   def login
     reset_session
     
-    @user = User.create!(user_params)
-    session[:user_id] = @user.id
+    @user = begin 
+      User.create!(user_params) 
+    rescue ActiveRecord::RecordInvalid
+      User.find_by_email(user_params[:email])
+    end
+
+    @user.token = SecureRandom.hex
+    @user.save!
+
+    UserMailer.sign_in(@user).deliver_later
+
+    flash[:success] = "Check your email for a login link"
+
     redirect_to(:root)
-  rescue ActiveRecord::RecordInvalid
-    existing_user = User.find_by_email(user_params[:email])
-    session[:user_id] = existing_user.id
-    redirect_to(:root)
+  end
+
+  def authenticate
   end
 
   def logout
