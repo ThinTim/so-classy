@@ -22,54 +22,83 @@ describe TopicsController, type: :controller do
 
   describe 'GET #new' do
 
-    it 'should return status 200' do
-      get :new
+    context 'when the user is logged in' do 
+      it 'should return status 200' do
+        session[:user_id] = 1
 
-      expect(response.status).to eq 200
+        get :new
+
+        expect(response.status).to eq 200
+      end
     end
 
+    context 'when the user is logged out' do
+      it 'should redirect to root' do
+        get :new
+
+        assert_redirected_to :root
+      end
+    end
   end
 
   describe 'POST #create' do
 
-    context 'when topic is new' do
+    context 'when user is logged in' do
 
-      it 'should store the new topic' do
-        post :create, topic: {
-            name: 'Knife fighting'
-        }
-
-        expect(assigns(:topic).name).to eq 'Knife fighting'
+      before :each do
+        session[:user_id] = 42
       end
 
-      it 'should redirect to the new topic' do
-        post :create, topic: {
-            name: 'Knife knitting'
-        }
+      context 'when when topic is new' do
 
-        assert_redirected_to assigns(:topic)
+        it 'should store the new topic' do
+          post :create, topic: {
+              name: 'Knife fighting'
+          }
+
+          expect(assigns(:topic).name).to eq 'Knife fighting'
+        end
+
+        it 'should redirect to the new topic' do
+          post :create, topic: {
+              name: 'Knife knitting'
+          }
+
+          assert_redirected_to assigns(:topic)
+        end
+
       end
 
+      context 'when when topic already exists' do
+
+        before(:each) do
+          @existing_topic = Topic.create({ name: 'Duplicating' })
+        end
+
+        it 'should redirect the user to the topic' do
+          post :create, topic: {
+              name: 'Duplicating'
+          }
+
+          assert_redirected_to(@existing_topic)
+        end
+
+        it 'should not create a duplicate topic' do
+          assert_difference 'Topic.count', 0 do
+            post :create, topic: { name: 'Duplicating' }
+          end
+        end
+
+      end
+      
     end
 
-    context 'when topic already exists' do
+    context 'when user is not logged in' do
 
-      before(:each) do
-        @existing_topic = Topic.create({ name: 'Duplicating' })
-      end
+      it 'should redirect to root' do
+        post :create, topic: { name: 'Doomed topic' }
 
-      it 'should redirect the user to the topic' do
-        post :create, topic: {
-            name: 'Duplicating'
-        }
-
-        assert_redirected_to(@existing_topic) 
-      end
-
-      it 'should not create a duplicate topic' do
-        assert_difference 'Topic.count', 0 do
-          post :create, topic: { name: 'Duplicating' }
-        end
+        assert_redirected_to :root
       end
 
     end
@@ -89,7 +118,7 @@ describe TopicsController, type: :controller do
   end
 
   describe 'POST #add_teacher' do
-    context 'the user is logged in' do
+    context 'when the user is logged in' do
       before(:each) do
         @existing_topic = Topic.create(name: 'Jimmying')
         @current_user = User.create(name: 'Jimmy')
@@ -108,7 +137,7 @@ describe TopicsController, type: :controller do
         assert_redirected_to @existing_topic
       end
 
-      context 'the user is already a teacher' do
+      context 'when the user is already a teacher' do
         before(:each) do
           @existing_topic.teachers << @current_user
           @existing_topic.save!
@@ -127,10 +156,28 @@ describe TopicsController, type: :controller do
         end
       end
     end
+
+    context 'when the user is logged out' do
+      before :each do
+        @existing_topic = Topic.create(name: 'Teaching')
+      end
+
+      it 'should not alter the teacher list' do
+        assert_difference '@existing_topic.teachers.size', 0 do
+          post :add_teacher, id: @existing_topic.id
+        end
+      end
+
+      it 'should redirect to root' do
+        post :add_teacher, id: @existing_topic.id
+
+        assert_redirected_to :root
+      end
+    end
   end
 
   describe 'POST #add_student' do
-    context 'the user is logged in' do
+    context 'when the user is logged in' do
       before :each do
         @existing_topic = Topic.create(name: 'Jimmying')
         @current_user = User.create(name: 'Jimmy')
@@ -149,7 +196,7 @@ describe TopicsController, type: :controller do
         assert_redirected_to @existing_topic
       end
 
-      context 'the user is already a student' do
+      context 'when the user is already a student' do
         before(:each) do
           @existing_topic.students << @current_user
           @existing_topic.save!
@@ -166,6 +213,24 @@ describe TopicsController, type: :controller do
             post :add_student, id: @existing_topic.id
           end
         end
+      end
+    end
+
+    context 'when the user is logged out' do
+      before :each do
+        @existing_topic = Topic.create(name: 'Jimmying')
+      end
+
+      it 'should not alter the student list' do
+        assert_difference '@existing_topic.students.size', 0 do
+          post :add_student, id: @existing_topic.id
+        end
+      end
+
+      it 'should redirect to root' do
+        post :add_student, id: @existing_topic.id
+
+        assert_redirected_to :root
       end
     end
   end

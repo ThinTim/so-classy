@@ -4,7 +4,7 @@ describe UsersController, type: :controller do
 
   describe 'POST #login' do
 
-    context 'when user is new' do
+    context 'when when user is new' do
 
       it 'should create user' do
         assert_difference 'User.count', 1 do
@@ -29,7 +29,7 @@ describe UsersController, type: :controller do
 
     end
 
-    context 'when user already exists' do
+    context 'when when user already exists' do
 
       before :each do
         @existing_user = User.create(name: 'Dave', email: 'dave@example.com')

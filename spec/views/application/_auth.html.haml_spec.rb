@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'application/_auth.html.haml', type: :view do
 
-  context 'the user is logged in' do
+  context 'when the user is logged in' do
 
     before(:each) do
       @user = User.new name: 'Tim', email: 'tim@tim.com'
@@ -22,7 +22,7 @@ describe 'application/_auth.html.haml', type: :view do
 
   end
 
-  context 'the user is not logged in' do
+  context 'when the user is not logged in' do
     
     before(:each) do
       allow(view).to receive(:current_user).and_return(nil)

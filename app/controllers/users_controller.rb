@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_filter :authenticate_user, only: [ :login, :logout ]
 
   def login
     reset_session
@@ -22,5 +23,5 @@ private
   def user_params
     params.require(:user).permit(:name, :email)
   end
-
+  
 end
