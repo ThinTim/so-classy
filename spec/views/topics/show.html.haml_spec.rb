@@ -3,6 +3,11 @@ require 'rails_helper'
 describe 'topics/show.html.haml', type: :view do
 
   let(:ruby_topic) { Topic.new(name: 'Ruby', id: 42) }
+  let(:user) { User.new(name: 'Mick', email: 'mick@example.com') }
+
+  before(:each) do
+    allow(view).to receive(:current_user).and_return(user)
+  end
 
   it 'should display topic name' do
     assign(:topic, ruby_topic)
@@ -38,6 +43,18 @@ describe 'topics/show.html.haml', type: :view do
       assert_select('button', 'Volunteer')
     end
 
+    context 'when the user is a teacher already' do
+      it 'should have a stop teaching button' do
+        assign(:topic, java_topic)
+
+        java_topic.teachers << user
+
+        render
+
+        assert_select('button', 'Stop Volunteering')
+      end
+    end
+
     it 'should list teachers' do
       assign(:topic, java_topic)
 
@@ -64,6 +81,18 @@ describe 'topics/show.html.haml', type: :view do
       render
 
       assert_select('button', 'Enroll')
+    end
+
+    context 'when the user is a student already' do
+      it 'should have a stop learning button' do
+        assign(:topic, java_topic)
+
+        java_topic.students << user
+
+        render
+
+        assert_select('button', 'Unenroll')
+      end
     end
 
     it 'should list students' do
