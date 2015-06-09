@@ -39,6 +39,7 @@ describe TopicsController, type: :controller do
         assert_redirected_to :root
       end
     end
+
   end
 
   describe 'POST #create' do
@@ -128,6 +129,8 @@ describe TopicsController, type: :controller do
       it 'should add current user to teachers' do
         post :add_teacher, id: @existing_topic.id
 
+        @existing_topic.reload
+
         expect(@existing_topic.teachers).to include @current_user
       end
 
@@ -152,6 +155,8 @@ describe TopicsController, type: :controller do
         it 'should prevent duplicates' do
           assert_difference '@existing_topic.teachers.size', 0 do
             post :add_teacher, id: @existing_topic.id
+
+            @existing_topic.reload
           end
         end
       end
@@ -170,6 +175,36 @@ describe TopicsController, type: :controller do
 
       it 'should redirect to root' do
         post :add_teacher, id: @existing_topic.id
+
+        assert_redirected_to :root
+      end
+    end
+
+  end
+
+  describe 'POST #remove_teacher' do
+    before(:each) do
+      @existing_topic = Topic.create(name: 'Jimmying')
+      @current_user = User.create(name: 'Jimmy')
+      @existing_topic.teachers << @current_user
+      @existing_topic.save!
+    end
+
+    context 'when the user is logged in' do
+      it 'should remove the user from the list of teachers' do
+        session[:user_id] = @current_user.id
+
+        post :remove_teacher, id: @existing_topic.id
+
+        @existing_topic.reload
+
+        expect(@existing_topic.teachers).not_to include @current_user
+      end
+    end
+
+    context 'when the user is logged out' do
+      it 'should redirect to root' do
+        post :remove_teacher, id: @existing_topic.id
 
         assert_redirected_to :root
       end
@@ -211,6 +246,8 @@ describe TopicsController, type: :controller do
         it 'should prevent duplicates' do
           assert_difference '@existing_topic.students.size', 0 do
             post :add_student, id: @existing_topic.id
+
+            @existing_topic.reload
           end
         end
       end
@@ -224,6 +261,8 @@ describe TopicsController, type: :controller do
       it 'should not alter the student list' do
         assert_difference '@existing_topic.students.size', 0 do
           post :add_student, id: @existing_topic.id
+
+          @existing_topic.reload
         end
       end
 
@@ -233,6 +272,35 @@ describe TopicsController, type: :controller do
         assert_redirected_to :root
       end
     end
+
   end
 
+  describe 'POST #remove_student' do
+    before(:each) do
+      @existing_topic = Topic.create(name: 'Jimmying')
+      @current_user = User.create(name: 'Jimmy')
+      @existing_topic.students << @current_user
+      @existing_topic.save!
+    end
+
+    context 'when the user is logged in' do
+      it 'should remove the user from the list of students' do
+        session[:user_id] = @current_user.id
+
+        post :remove_student, id: @existing_topic.id
+
+        @existing_topic.reload
+
+        expect(@existing_topic.students).not_to include @current_user
+      end
+    end
+
+    context 'when the user is logged out' do
+      it 'should redirect to root' do
+        post :remove_student, id: @existing_topic.id
+
+        assert_redirected_to :root
+      end
+    end
+  end
 end

@@ -30,6 +30,13 @@ class TopicsController < ApplicationController
     render nothing: true, status: 409
   end
 
+  def remove_teacher
+    topic = Topic.find(params[:id])
+    topic.teachers.delete(current_user)
+    topic.save!
+    redirect_to(topic)
+  end
+
   def add_student
     topic = Topic.find(params[:id])
     topic.students << current_user
@@ -37,6 +44,13 @@ class TopicsController < ApplicationController
     redirect_to(topic)
   rescue ActiveRecord::RecordInvalid
     render nothing: true, status: 409
+  end
+
+  def remove_student
+    topic = Topic.find(params[:id])
+    topic.students.delete(current_user)
+    topic.save!
+    redirect_to(topic)
   end
 
 private
