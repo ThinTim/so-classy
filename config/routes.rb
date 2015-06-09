@@ -15,6 +15,5 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     get 'authenticate', to: 'users#authenticate', :on => :member
   end
-  
 
 end

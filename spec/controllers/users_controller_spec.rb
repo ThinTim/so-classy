@@ -2,28 +2,39 @@ require 'rails_helper'
 
 describe UsersController, type: :controller do
 
-  xdescribe 'GET #authenticate' do
-    let(:link_user_id) { 1 }
-    let(:link_hash) { SecureRandom.hex }
+  describe 'GET #authenticate' do
+    before(:each) do
+      @existing_user = User.create(email: 'max@example.com', token: SecureRandom.hex)
+    end
 
     context 'when the token matches the user in the database' do
       it 'should add the user_id to session' do
-        get :authenticate, id: link_user_id, token: link_hash
+        get :authenticate, id: @existing_user.id, token: @existing_user.token
 
-        expect(session[:user_id]).to eq link_user_id
+        expect(session[:user_id]).to eq @existing_user.id
+      end
+
+      it 'should reset the user\'s token' do
+        starting_value = @existing_user.token
+
+        get :authenticate, id: @existing_user.id, token: @existing_user.token
+
+        @existing_user.reload
+
+        expect(@existing_user.token).not_to eq starting_value
       end
     end
 
     context 'when the token is invalid' do
       it 'should not add the user_id to the session' do
-        get :authenticate, id: link_user_id, token: link_hash
+        get :authenticate, id: @existing_user.id, token: SecureRandom.hex
 
         expect(session[:user_id]).to be_nil
       end
     end
     
     it 'should redirect to root' do
-      get :authenticate, id: link_user_id, token: link_hash
+      get :authenticate, id: @existing_user.id, token: @existing_user.token
 
       assert_redirected_to :root
     end
