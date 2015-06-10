@@ -2,18 +2,16 @@ class UsersController < ApplicationController
   skip_before_filter :authenticate_user, only: [ :login, :logout, :authenticate ]
 
   def login
-    user = begin
-      User.create!(email: params[:email])
-    rescue ActiveRecord::RecordInvalid
-      User.find_by_email(params[:email])
-    end
-
+    user = User.find_by_email(params[:email])
+    user = User.create!(email: params[:email]) if user.nil?
     user.token = SecureRandom.hex
     user.save!
 
     UserMailer.sign_in(user).deliver_later
-
     flash[:success] = 'Check your email for a login link'
+    redirect_to(:root)
+  rescue ActiveRecord::RecordInvalid => exception
+    flash[:error] = exception.message
     redirect_to(:root)
   end
 

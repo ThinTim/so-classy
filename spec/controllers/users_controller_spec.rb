@@ -116,6 +116,22 @@ describe UsersController, type: :controller do
 
     end
 
+    context 'when the user is invalid' do
+
+      it 'should redirect to root' do
+        post :login, email: 'dave@invalid.com'
+
+        assert_redirected_to(:root)
+      end
+
+      it 'should flash validation message' do
+        post :login, email: 'dave@invalid.com'
+
+        expect(flash[:error]).not_to be_nil
+      end
+
+    end
+
   end
 
   describe 'POST #logout' do
@@ -137,6 +153,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'PUT #update' do
+
     before(:each) do
       @existing_user = User.create(email: 'max@example.com', token: SecureRandom.hex)
       session[:user_id] = @existing_user.id

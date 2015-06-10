@@ -76,4 +76,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Control who can access SoClassy
+  config.user_email_domain = ENV['USER_EMAIL_DOMAIN'] or '.*'
 end
