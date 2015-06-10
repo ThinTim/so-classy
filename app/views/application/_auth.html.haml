@@ -1,13 +1,13 @@
-- if current_user
-  .navbar-right
-    = form_tag(:logout, class: "navbar-form") do |form|
-      %p.form-control-static= "Signed in as " + current_user.name
-      %button.btn.btn-default{type: "submit"} Logout
-- else
-  = form_for :user, url: :login do |form|
-    %p
-      = form.label(:name)
-      = form.text_field(:name)
-      = form.label(:email)
-      = form.email_field(:email)
-      = form.submit
+.navbar-right
+  - user = current_user
+  - if user
+    = form_tag(:logout, class: 'navbar-form') do
+      .form-group
+        %p.form-control-static= 'Signed in as ' + (user.name or user.email)
+        %button.btn.btn-default{type: 'submit'} Logout
+  - else
+    = form_tag(:login, class: 'navbar-form') do
+      .form-group
+        = label_tag(:email)
+        = email_field_tag(:email, nil, class: 'form-control')
+      %button.btn.btn-default{type: 'submit'} Log in

@@ -122,7 +122,7 @@ describe TopicsController, type: :controller do
     context 'when the user is logged in' do
       before(:each) do
         @existing_topic = Topic.create(name: 'Jimmying')
-        @current_user = User.create(name: 'Jimmy')
+        @current_user = User.create(email: 'jimmy@example.com')
         session[:user_id] = @current_user.id
       end
       
@@ -185,7 +185,7 @@ describe TopicsController, type: :controller do
   describe 'POST #remove_teacher' do
     before(:each) do
       @existing_topic = Topic.create(name: 'Jimmying')
-      @current_user = User.create(name: 'Jimmy')
+      @current_user = User.create(email: 'jimmy@example.com')
       @existing_topic.teachers << @current_user
       @existing_topic.save!
     end
@@ -215,7 +215,7 @@ describe TopicsController, type: :controller do
     context 'when the user is logged in' do
       before :each do
         @existing_topic = Topic.create(name: 'Jimmying')
-        @current_user = User.create(name: 'Jimmy')
+        @current_user = User.create(email: 'jimmy@example.com')
         session[:user_id] = @current_user.id
       end
 
@@ -278,7 +278,7 @@ describe TopicsController, type: :controller do
   describe 'POST #remove_student' do
     before(:each) do
       @existing_topic = Topic.create(name: 'Jimmying')
-      @current_user = User.create(name: 'Jimmy')
+      @current_user = User.create(email: 'jimmy@example.com')
       @existing_topic.students << @current_user
       @existing_topic.save!
     end

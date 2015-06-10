@@ -3,9 +3,9 @@ class UsersController < ApplicationController
 
   def login
     user = begin
-      User.create!(user_params) 
+      User.create!(email: params[:email]) 
     rescue ActiveRecord::RecordInvalid
-      User.find_by_email(user_params[:email])
+      User.find_by_email(params[:email])
     end
 
     user.token = SecureRandom.hex
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def authenticate
     reset_session
-    
+
     user = User.find(params[:id])
     if user.token == params[:token]
       session[:user_id] = user.id
@@ -34,12 +34,6 @@ class UsersController < ApplicationController
   def logout
     reset_session
     redirect_to(:root)
-  end
-
-private
-
-  def user_params
-    params.require(:user).permit(:name, :email)
   end
   
 end

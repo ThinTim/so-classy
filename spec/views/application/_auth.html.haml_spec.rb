@@ -5,15 +5,11 @@ describe 'application/_auth.html.haml', type: :view do
   context 'when the user is logged in' do
 
     before(:each) do
-      @user = User.new name: 'Tim', email: 'tim@tim.com'
+      @user = User.new email: 'tim@example.com'
 
       allow(view).to receive(:current_user).and_return(@user)
       
       render
-    end
-
-    it 'should display the user\'s name' do
-      expect(rendered).to include @user.name
     end
 
     it 'should display the logout button' do
@@ -31,9 +27,8 @@ describe 'application/_auth.html.haml', type: :view do
     end
 
     it 'should display the login form' do
-      assert_select('input[type="text"][name="user[name]"]')
-      assert_select('input[type="email"][name="user[email]"]')
-      assert_select('input[type="submit"]')
+      assert_select('input[type="email"][name="email"]')
+      assert_select('button[type="submit"]')
     end
 
   end
