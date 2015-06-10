@@ -2,21 +2,18 @@ class UsersController < ApplicationController
   skip_before_filter :authenticate_user, only: [ :login, :logout, :authenticate ]
 
   def login
-    reset_session
-    
-    @user = begin 
+    user = begin
       User.create!(user_params) 
     rescue ActiveRecord::RecordInvalid
       User.find_by_email(user_params[:email])
     end
 
-    @user.token = SecureRandom.hex
-    @user.save!
+    user.token = SecureRandom.hex
+    user.save!
 
-    UserMailer.sign_in(@user).deliver_later
+    UserMailer.sign_in(user).deliver_later
 
-    flash[:success] = "Check your email for a login link"
-
+    flash[:success] = 'Check your email for a login link'
     redirect_to(:root)
   end
 
@@ -26,11 +23,6 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     if user.token == params[:token]
       session[:user_id] = user.id
-
-      #Reset user's token so link doesn't work again
-      user.token = SecureRandom.hex
-      user.save!
-
       flash[:success] = 'Logged in successfully'
       redirect_to :root
     else
