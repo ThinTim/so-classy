@@ -47,7 +47,8 @@ describe TopicsController, type: :controller do
     context 'when user is logged in' do
 
       before :each do
-        session[:user_id] = 42
+        @current_user = User.create(email: 'foo@example.com')
+        session[:user_id] = @current_user.id
       end
 
       context 'when when topic is new' do
@@ -58,6 +59,16 @@ describe TopicsController, type: :controller do
           }
 
           expect(assigns(:topic).name).to eq 'Knife fighting'
+        end
+
+        it 'should set the owner of the new topic' do
+          post :create, topic: {
+              name: 'Knife juggling'
+          }
+
+          topic = Topic.find_by_name('Knife juggling')
+
+          expect(topic.owner.id).to eq @current_user.id
         end
 
         it 'should redirect to the new topic' do

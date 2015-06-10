@@ -10,7 +10,10 @@ class TopicsController < ApplicationController
   end
 
   def create
-    @topic = Topic.create!(topic_params)
+    @topic = Topic.new(topic_params)
+    @topic.owner = current_user
+    @topic.save!
+
     redirect_to @topic
   rescue ActiveRecord::RecordInvalid
     existing_topic = Topic.find_by_name(topic_params['name'])
