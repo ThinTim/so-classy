@@ -1,9 +1,15 @@
-.navbar-right
-  - if current_user
-    = link_to "This isn't me...", { controller: :users, action: :logout }, class: 'navbar-text'
-  - else
-    = form_tag({ controller: :users, action: :login }, class: 'navbar-form') do
-      .form-group
-        = label_tag(:email)
-        = email_field_tag(:email, nil, class: 'form-control')
-      %button.btn.btn-default{type: 'submit'} Log in
+.auth
+  .navbar-right
+    - user = current_user
+    - if user
+      .navbar-text
+        Welcome, #{user.name || user.email}!
+      .navbar-text
+        %span Not #{user.name || user.email}?
+        = link_to "Get a new sign in email", { controller: :users, action: :logout }, class: 'secondary'
+    - else
+      = form_tag({ controller: :users, action: :login }, class: 'navbar-form') do
+        .form-group
+          = label_tag(:email)
+          = email_field_tag(:email, nil, class: 'form-control')
+        %button.btn.btn-default{type: 'submit'} Log in

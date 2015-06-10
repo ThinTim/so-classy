@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     post 'login', to: 'users#login', on: :collection
     post 'logout', to: 'users#logout', on: :collection
+    get 'logout', to: 'users#logout', on: :collection
     get 'authenticate', to: 'users#authenticate', on: :member
   end
 

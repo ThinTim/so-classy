@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'application/_auth.html.haml', type: :view do
 
-  context 'when the user is logged in' do
+  context 'when there is a current_user' do
 
     before(:each) do
       @user = User.new email: 'tim@example.com'
@@ -12,13 +12,13 @@ describe 'application/_auth.html.haml', type: :view do
       render
     end
 
-    it 'should display the logout button' do
-      expect(rendered).to include 'Logout'
+    it 'should display logout link' do
+      expect(rendered).to include 'Get a new sign in email'
     end
 
   end
 
-  context 'when the user is not logged in' do
+  context 'when there is no current_user' do
     
     before(:each) do
       allow(view).to receive(:current_user).and_return(nil)
