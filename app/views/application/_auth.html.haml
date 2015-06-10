@@ -6,10 +6,11 @@
         Welcome, #{user.name || user.email}!
       .navbar-text
         %span Not #{user.name || user.email}?
-        = link_to "Get a new sign in email", { controller: :users, action: :logout }, class: 'secondary'
+        = link_to "Get a new sign in email", { controller: :users, action: :logout }
     - else
       = form_tag({ controller: :users, action: :login }, class: 'navbar-form') do
+
         .form-group
-          = label_tag(:email)
+          = label_tag('Send a sign in link to')
           = email_field_tag(:email, nil, class: 'form-control')
-        %button.btn.btn-default{type: 'submit'} Log in
+        %button.btn.btn-default{type: 'submit'} Send
