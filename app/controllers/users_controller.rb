@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     user.save!
 
     UserMailer.sign_in(user).deliver_later
-    flash[:success] = 'Check your email for a login link'
+    flash[:success] = "Check your email - we sent a sign in link to #{params[:email]}"
     redirect_to(:root)
   rescue ActiveRecord::RecordInvalid => exception
     flash[:error] = exception.message
