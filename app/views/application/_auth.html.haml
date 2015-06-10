@@ -1,12 +1,8 @@
 .navbar-right
-  - user = current_user
-  - if user
-    = form_tag(:logout, class: 'navbar-form') do
-      .form-group
-        %p.form-control-static= 'Signed in as ' + (user.name or user.email)
-        %button.btn.btn-default{type: 'submit'} Logout
+  - if current_user
+    = link_to "This isn't me...", { controller: :users, action: :logout }, class: 'navbar-text'
   - else
-    = form_tag(:login, class: 'navbar-form') do
+    = form_tag({ controller: :users, action: :login }, class: 'navbar-form') do
       .form-group
         = label_tag(:email)
         = email_field_tag(:email, nil, class: 'form-control')
