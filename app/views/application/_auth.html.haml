@@ -11,6 +11,5 @@
       = form_tag({ controller: :users, action: :login }, class: 'navbar-form') do
         .form-group
           = label_tag('Send a sign in link to')
-          = text_field_tag(:email, nil, class: 'form-control')
-          = label_tag("@#{Rails.application.config.user_email_domain}")
-        %button.btn.btn-default{type: 'submit'} Send
+          = text_field_tag(:email, nil, class: 'form-control', placeholder: "me@#{Rails.application.config.user_email_domain}")
+        %button.btn.btn-default{type: 'submit'} Go!

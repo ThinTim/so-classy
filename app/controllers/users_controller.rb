@@ -3,9 +3,9 @@ class UsersController < ApplicationController
 
   def login
     user = begin
-      User.create!(email: append_user_email_domain(params[:email]))
+      User.create!(email: params[:email])
     rescue ActiveRecord::RecordInvalid
-      User.find_by_email(append_user_email_domain(params[:email]))
+      User.find_by_email(params[:email])
     end
 
     user.token = SecureRandom.hex
@@ -36,18 +36,11 @@ class UsersController < ApplicationController
     redirect_to(:root)
   end
 
-private
-
-  def append_user_email_domain(email_user_name)
-    "#{email_user_name}@#{Rails.application.config.user_email_domain}"
-  end
-  
-
   def update
     user_params = params.require(:user).permit(:name)
     user = User.find(params[:id])
 
-    if(user == current_user) 
+    if(user == current_user)
       user.update!(user_params)
       flash[:success] = 'Update successful'
       redirect_to :root
@@ -55,4 +48,5 @@ private
       render nothing: true, status: 403
     end
   end
+
 end
