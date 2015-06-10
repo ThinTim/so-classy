@@ -14,4 +14,16 @@
       = render 'auth'
   .container
     = render 'flash_messages'
+
+    - user = current_user
+    - if user and not user.name
+      .alert.alert-warning.text-center
+        .strong You haven't set your name!
+        
+        = form_for user, url: user_path(user), html: { method: "patch", class: 'form-inline' } do |form|
+          .form-group
+            = form.label(:name, 'My name is')
+            = form.text_field(:name, class: 'form-control')
+          %button.btn.btn-default{type: 'submit'} Update
+          
     = yield
