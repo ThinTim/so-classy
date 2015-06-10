@@ -6,7 +6,7 @@
         Welcome, #{user.name || user.email}!
       .navbar-text
         %span Not #{user.name || user.email}?
-        = link_to "Get a new sign in email", { controller: :users, action: :logout }
+        = link_to "Get a new sign in email", { controller: :users, action: :logout }, class: 'secondary'
     - else
       = form_tag({ controller: :users, action: :login }, class: 'navbar-form') do
 
