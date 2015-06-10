@@ -56,17 +56,17 @@ describe UsersController, type: :controller do
 
       it 'should create user' do
         assert_difference 'User.count', 1 do
-          post :login, email: 'dave@example.com'
+          post :login, email: 'dave'
         end
 
-        user = User.find_by_email('dave@example.com')
+        user = User.find_by_email('dave@thoughtworks.com')
         expect(user.token).not_to be_nil
       end
 
       it 'should send an email to the user' do
-        post :login, email: 'dave@example.com'
+        post :login, email: 'dave'
 
-        user = User.find_by_email('dave@example.com')
+        user = User.find_by_email('dave@thoughtworks.com')
         expect(UserMailer).to have_received(:sign_in).with(user).once
         expect(fake_mail).to have_received(:deliver_later)
       end
@@ -82,19 +82,19 @@ describe UsersController, type: :controller do
     context 'when when user already exists' do
 
       before :each do
-        @existing_user = User.create(email: 'dave@example.com', token: SecureRandom.hex )
+        @existing_user = User.create(email: "dave@#{Rails.application.config.user_email_domain}", token: SecureRandom.hex )
       end
 
       it 'should not create user' do
         assert_difference 'User.count', 0 do
-          post :login, email: 'dave@example.com'
+          post :login, email: 'dave'
         end
       end
 
       it 'should generate new token' do
         starting_token = @existing_user.token
 
-        post :login, email: 'dave@example.com'
+        post :login, email: 'dave'
 
         @existing_user.reload
         expect(@existing_user.token).not_to be_nil
@@ -102,14 +102,14 @@ describe UsersController, type: :controller do
       end
 
       it 'should send an email to the user' do
-        post :login, email: 'dave@example.com'
+        post :login, email: 'dave'
 
         expect(UserMailer).to have_received(:sign_in).with(@existing_user).once
         expect(fake_mail).to have_received(:deliver_later)
       end
 
       it 'should redirect to root' do
-        post :login, email: 'dave@example.com'
+        post :login, email: 'dave'
 
         assert_redirected_to(:root)
       end

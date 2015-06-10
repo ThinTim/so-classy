@@ -27,7 +27,7 @@ describe 'application/_auth.html.haml', type: :view do
     end
 
     it 'should display the login form' do
-      assert_select('input[type="email"][name="email"]')
+      assert_select('input[name="email"]')
       assert_select('button[type="submit"]')
     end
 

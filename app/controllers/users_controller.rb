@@ -3,9 +3,9 @@ class UsersController < ApplicationController
 
   def login
     user = begin
-      User.create!(email: params[:email]) 
+      User.create!(email: append_user_email_domain(params[:email]))
     rescue ActiveRecord::RecordInvalid
-      User.find_by_email(params[:email])
+      User.find_by_email(append_user_email_domain(params[:email]))
     end
 
     user.token = SecureRandom.hex
@@ -34,6 +34,12 @@ class UsersController < ApplicationController
   def logout
     reset_session
     redirect_to(:root)
+  end
+
+private
+
+  def append_user_email_domain(email_user_name)
+    "#{email_user_name}@#{Rails.application.config.user_email_domain}"
   end
   
 

@@ -19,4 +19,5 @@ class ApplicationController < ActionController::Base
       redirect_to(:root)
     end
   end
+
 end

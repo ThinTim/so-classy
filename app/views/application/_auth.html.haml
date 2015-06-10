@@ -9,8 +9,8 @@
         = link_to "Get a new sign in email", { controller: :users, action: :logout }, class: 'secondary'
     - else
       = form_tag({ controller: :users, action: :login }, class: 'navbar-form') do
-
         .form-group
           = label_tag('Send a sign in link to')
-          = email_field_tag(:email, nil, class: 'form-control')
+          = text_field_tag(:email, nil, class: 'form-control')
+          = label_tag("@#{Rails.application.config.user_email_domain}")
         %button.btn.btn-default{type: 'submit'} Send
