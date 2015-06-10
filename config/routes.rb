@@ -9,11 +9,10 @@ Rails.application.routes.draw do
     post 'remove_student', on: :member
   end
 
-  post 'users/login', :to => 'users#login', :as => :login
-  post 'users/logout', :to => 'users#logout', :as => :logout
-
   resources :users, only: [] do
-    get 'authenticate', to: 'users#authenticate', :on => :member
+    post 'login', to: 'users#login', on: :collection
+    post 'logout', to: 'users#logout', on: :collection
+    get 'authenticate', to: 'users#authenticate', on: :member
   end
 
 end
