@@ -1,4 +1,7 @@
 .auth
+  .navbar-header
+    %a.navbar-brand{href: (url_for :root) }
+      SoClassy
   .navbar-right
     - user = current_user
     - if user
