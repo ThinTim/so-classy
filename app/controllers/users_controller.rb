@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :authenticate_user, only: [ :login, :logout, :authenticate ]
+  skip_before_filter :authenticate_user, only: [ :login, :authenticate ]
 
   def login
     user = User.find_by_email(params[:email])

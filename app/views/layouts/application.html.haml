@@ -11,6 +11,9 @@
 %body
   %nav.navbar.navbar-default
     .container-fluid
+      .navbar-header
+        %a.navbar-brand{href: (url_for topics_path) }
+          SoClassy
       = render 'auth'
   .container
     = render 'flash_messages'

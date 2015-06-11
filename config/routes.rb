@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'topics#index'
+  root 'sessions#new'
 
   resources :topics, only: [:index, :new, :create, :show] do
     post 'add_teacher', on: :member
