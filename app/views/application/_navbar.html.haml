@@ -1,0 +1,6 @@
+%nav.navbar.navbar-default
+  .container-fluid
+    .navbar-header
+      %a.navbar-brand{href: (url_for :root) }
+        =image_tag 'logo.png', alt: 'SoClassy Logo', class: 'navbar-logo'
+    = render 'auth'

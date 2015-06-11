@@ -1,3 +1,8 @@
 a.secondary {
   color: $secondary-cta;
 }
+
+.navbar-logo {
+	height: $navbar-height;
+	margin-top: -1 * $navbar-padding-vertical;
+}
