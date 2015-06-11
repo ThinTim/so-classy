@@ -22,6 +22,18 @@ class TopicsController < ApplicationController
     @topic = Topic.find(params[:id])
   end
 
+  def destroy
+    topic = Topic.find(params[:id])
+    if current_user == topic.owner
+      topic.destroy!
+      flash[:success] = 'Topic deleted'
+      redirect_to :topics
+    else
+      flash[:error] = 'Only the creator of a topic can delete it'
+      redirect_to topic
+    end
+  end
+
   def add_teacher
     topic = Topic.find(params[:id])
     topic.teachers << current_user

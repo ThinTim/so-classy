@@ -8,7 +8,7 @@
     .col-xs-6
       %h2 Teachers
       .topic-action
-        -if current_user and @topic.teachers.include? current_user
+        -if @topic.teachers.include? current_user
           = form_tag(remove_teacher_topic_path(@topic.id)) do |form|
             %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Stop Volunteering
         -else
@@ -18,10 +18,16 @@
     .col-xs-6
       %h2 Students
       .topic-action
-        -if current_user and @topic.students.include? current_user
+        -if @topic.students.include? current_user
           = form_tag(remove_student_topic_path(@topic.id)) do |form|
             %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Unenroll
         -else
           = form_tag(add_student_topic_path(@topic.id)) do |form|
             %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Enroll
       = render partial: 'application/people', locals: { people: @topic.students }
+
+  .row
+    .col-xs-12
+      -if current_user == @topic.owner
+        =form_for(@topic, method: :delete) do
+          %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Delete this topic

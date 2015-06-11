@@ -94,11 +94,58 @@ describe TopicsController, type: :controller do
   describe 'GET #show' do
 
     let(:topic) { Topic.create({ name: 'Banjo' }) }
-    
+
     it 'should make the topic available' do
       get :show, id: topic.id
 
       expect(assigns(:topic)).to eq topic
+    end
+
+  end
+
+  describe 'DELETE #destroy' do
+
+    let(:owner) { User.create(email: 'barry@example.com') }
+    let(:non_owner) { User.create(email: 'otherbarry@example.com') }
+
+    before :each do
+      @topic = Topic.create({ name: 'Banjo', owner: owner })
+    end
+
+    context 'current_user is owner' do
+
+      before :each do
+        session[:user_id] = owner.id
+      end
+
+      it 'should delete the topic' do
+        assert_difference('Topic.count', -1) { delete :destroy, id: @topic.id }
+      end
+
+      it 'should redirect to topics index' do
+        delete :destroy, id: @topic.id
+
+        assert_redirected_to :topics
+      end
+
+    end
+
+    context 'current_user is not owner' do
+
+      before :each do
+        session[:user_id] = non_owner.id
+      end
+
+      it 'should not delete the topic' do
+        assert_difference('Topic.count', 0) { delete :destroy, id: @topic.id }
+      end
+
+      it 'should redirect to show' do
+        delete :destroy, id: @topic.id
+
+        assert_redirected_to @topic
+      end
+
     end
 
   end
@@ -124,6 +171,7 @@ describe TopicsController, type: :controller do
     end
 
     context 'when the user is already a teacher' do
+
       before(:each) do
         @existing_topic.teachers << @current_user
         @existing_topic.save!
@@ -142,6 +190,7 @@ describe TopicsController, type: :controller do
           @existing_topic.reload
         end
       end
+
     end
 
   end
@@ -185,6 +234,7 @@ describe TopicsController, type: :controller do
     end
 
     context 'when the user is already a student' do
+
       before(:each) do
         @existing_topic.students << @current_user
         @existing_topic.save!
@@ -203,11 +253,13 @@ describe TopicsController, type: :controller do
           @existing_topic.reload
         end
       end
+
     end
 
   end
 
   describe 'POST #remove_student' do
+
     before(:each) do
       @existing_topic = Topic.create(name: 'Jimmying')
       @existing_topic.students << @current_user
@@ -223,5 +275,7 @@ describe TopicsController, type: :controller do
 
       expect(@existing_topic.students).not_to include @current_user
     end
+
   end
+  
 end
