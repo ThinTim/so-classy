@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
     User.find(session[:user_id]) if session[:user_id]
   end
 
+  def current_user?(user)
+    return !user.nil? && current_user == user
+  end
+
   protected
 
   def authenticate_user

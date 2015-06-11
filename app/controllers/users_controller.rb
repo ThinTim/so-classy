@@ -1,16 +1,28 @@
 class UsersController < ApplicationController
 
+  before_filter :correct_user, only: [ :edit, :update ]
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
   def update
-    user_params = params.require(:user).permit(:name)
     user = User.find(params[:id])
 
-    if(user == current_user)
-      user.update!(user_params)
-      flash[:success] = 'Update successful'
-      redirect_to :root
-    else
-      render nothing: true, status: 403
-    end
+    user_params = params.require(:user).permit(:name)
+    user.update!(user_params)
+
+    flash[:success] = 'Update successful'
+    redirect_to :root
   end
+
+  private
+    def correct_user
+      @user = User.find(params[:id])
+      if not current_user?(@user)
+        flash[:error] = 'Can not update other users'
+        redirect_to :root
+      end
+    end
 
 end

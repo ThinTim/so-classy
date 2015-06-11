@@ -1,1 +1,1 @@
-=link_to('Sign in to SoClassy.', controller: :sessions, action: :authenticate, only_path: false, id: @user.id, token: @user.token)
+=link_to('Sign in to SoClassy.', authenticate_session_path(@user, token: @user.token, only_path: false))

@@ -2,6 +2,20 @@ require 'rails_helper'
 
 describe UsersController, type: :controller do
 
+  describe 'GET #edit' do
+    before(:each) do
+      @existing_user = User.create(email: 'max@example.com', token: SecureRandom.hex)
+      session[:user_id] = @existing_user.id
+    end
+
+    it 'shuld display the user' do
+      get :edit, id: @existing_user.id
+
+      expect(assigns(:user)).to eq @existing_user
+      assert_template :edit
+    end
+  end
+
   describe 'PUT #update' do
 
     before(:each) do

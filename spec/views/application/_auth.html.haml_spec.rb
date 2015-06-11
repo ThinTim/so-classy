@@ -5,7 +5,7 @@ describe 'application/_auth.html.haml', type: :view do
   context 'when there is a current_user' do
 
     before(:each) do
-      @user = User.new email: 'tim@example.com'
+      @user = User.create email: 'tim@example.com'
 
       allow(view).to receive(:current_user).and_return(@user)
       

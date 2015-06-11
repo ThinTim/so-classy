@@ -2,6 +2,9 @@ class SessionsController < ApplicationController
   skip_before_filter :authenticate_user, only: [ :new, :create, :authenticate  ]
 
   def new
+    if not session[:user_id].nil?
+      redirect_to topics_path
+    end
   end
 
   def create

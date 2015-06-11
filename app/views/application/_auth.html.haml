@@ -3,12 +3,13 @@
     - user = current_user
     - if user
       .navbar-text
-        Welcome, #{user.name || user.email}!
+        Welcome, 
+        = link_to "#{user.name || user.email}!", edit_user_path(user)
       .navbar-text
         %span Not #{user.name || user.email}?
-        = link_to "Get a new sign in email", { controller: :sessions, action: :destroy }, class: 'secondary'
+        = link_to "Get a new sign in email", destroy_sessions_path, class: 'secondary'
     - else
-      = form_tag({ controller: :sessions, action: :create }, class: 'navbar-form') do
+      = form_tag(sessions_path, class: 'navbar-form') do
         .form-group
           = label_tag('Send a sign in link to')
           = email_field_tag(:email, nil, class: 'form-control', placeholder: "me@#{Rails.application.config.user_email_domain}")

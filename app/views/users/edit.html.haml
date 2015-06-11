@@ -1,0 +1,4 @@
+=form_for @user, html: { method: "patch" } do |form|
+  =form.label :name
+  =form.text_field :name, class: 'form-control'
+  %button.btn.btn-default{type: 'submit'} Update

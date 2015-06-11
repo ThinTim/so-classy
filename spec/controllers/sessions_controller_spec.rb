@@ -8,10 +8,19 @@ RSpec.describe SessionsController, type: :controller do
       get :new
     end
 
-    it 'should render a view' do
+    it 'should render a view if the user is not logged in' do
       get :new
 
       assert_template :new
+    end
+
+    it 'should redirect to topics path if the user is logged in' do
+      user = User.create(email: 'fred@example.com')
+      session[:user_id] = user.id
+
+      get :new
+
+      assert_redirected_to topics_path
     end
   end
 
