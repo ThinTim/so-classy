@@ -1,4 +1,7 @@
-=form_for @user, html: { method: "patch" } do |form|
-  =form.label :name
-  =form.text_field :name, class: 'form-control'
-  %button.btn.btn-default{type: 'submit'} Update
+.users
+  =form_for @user, html: { method: 'patch' } do |form|
+    .form-group
+      =form.label :name, class: 'control-label'
+      =form.text_field :name, class: 'form-control'
+    .form-group
+      %button.btn.btn-default{type: 'submit'} Update

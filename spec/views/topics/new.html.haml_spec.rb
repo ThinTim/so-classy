@@ -7,7 +7,7 @@ describe 'topics/new.html.haml', type: :view do
 
     assert_select('form[action="/topics"][method="post"]')
     assert_select('input[type="text"][name="topic[name]"]')
-    assert_select('input[type="submit"]')
+    assert_select('button[type="submit"]')
   end
 
 end

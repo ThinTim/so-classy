@@ -1,6 +1,7 @@
-%h1 Topics
-%ul.list-group
-  - @topics.each do |topic|
-    %li.list-group-item
-      = link_to topic.name, topic
-= link_to "Create a Topic", new_topic_path
+.topics
+  %h1 Topics
+  %ul.list-group
+    - @topics.each do |topic|
+      %li.list-group-item
+        = link_to topic.name, topic
+  = link_to "Create a Topic", new_topic_path, class: 'btn btn-lg btn-block btn-primary'
