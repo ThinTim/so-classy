@@ -170,7 +170,8 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'GET #destroy' do
     before :each do
-      session[:user_id] = 1
+      @current_user = User.create(email: 'paul@example.com')
+      session[:user_id] = @current_user.id
     end
 
     it 'should reset the session' do

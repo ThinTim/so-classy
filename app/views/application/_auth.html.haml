@@ -1,12 +1,11 @@
 .auth
   .navbar-right
-    - user = current_user
-    - if user
+    - if current_user
       .navbar-text
         Welcome, 
-        = link_to "#{user.name || user.email}!", edit_user_path(user)
+        = link_to "#{current_user.name || current_user.email}!", edit_user_path(current_user)
       .navbar-text
-        %span Not #{user.name || user.email}?
+        %span Not #{current_user.name || current_user.email}?
         = link_to "Get a new sign in email", destroy_sessions_path, class: 'secondary'
     - else
       = form_tag(sessions_path, class: 'navbar-form') do

@@ -8,7 +8,10 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-    User.find(session[:user_id]) if session[:user_id]
+    if session[:user_id]
+      @current_user = User.find(session[:user_id]) if @current_user.nil?
+    end
+    @current_user
   end
 
   def current_user?(user)
@@ -18,7 +21,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate_user
-    if not session[:user_id]
+    if current_user.nil?
       flash[:danger] = 'Please log in'
       redirect_to(:root)
     end

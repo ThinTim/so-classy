@@ -1,9 +1,8 @@
-- user = current_user
-- if user and not user.name
+- if current_user and not current_user.name
   .alert.alert-warning.text-center
     .strong You haven't set your name!
     
-    = form_for user, url: user_path(user), html: { method: "patch", class: 'form-inline' } do |form|
+    = form_for current_user, url: user_path(current_user), html: { method: "patch", class: 'form-inline' } do |form|
       .form-group
         = form.label(:name, 'My name is')
         = form.text_field(:name, class: 'form-control')
