@@ -8,6 +8,18 @@ describe UsersController, type: :controller do
       @existing_user = User.create(email: 'max@example.com', token: SecureRandom.hex)
     end
 
+    it 'should redirect to root' do
+      get :authenticate, id: @existing_user.id, token: @existing_user.token
+
+      assert_redirected_to :root
+    end
+
+    it 'should not require the user to log in' do
+      expect(controller).not_to receive(:authenticate_user)
+
+      get :authenticate, id: @existing_user.id, token: @existing_user.token
+    end
+
     context 'when the token matches the user in the database' do
 
       it 'should reset the session' do
@@ -34,12 +46,6 @@ describe UsersController, type: :controller do
       end
 
     end
-    
-    it 'should redirect to root' do
-      get :authenticate, id: @existing_user.id, token: @existing_user.token
-
-      assert_redirected_to :root
-    end
 
   end
 
@@ -50,6 +56,12 @@ describe UsersController, type: :controller do
     before(:each) do
       allow(fake_mail).to receive(:deliver_later)
       allow(UserMailer).to receive(:sign_in).and_return(fake_mail)
+    end
+
+    it 'should not require the user to log in' do
+      expect(controller).not_to receive(:authenticate_user)
+
+      post :login, email: 'dave@example.com'
     end
 
     context 'when when user is new' do
