@@ -2,6 +2,12 @@ Rails.application.routes.draw do
 
   root 'sessions#new'
 
+  resources :sessions, only: [ :create ] do
+    post 'logout', to: 'sessions#destroy', on: :collection
+    get 'logout', to: 'sessions#destroy', on: :collection
+    get 'authenticate', to: 'sessions#authenticate', on: :member
+  end
+
   resources :topics, only: [:index, :new, :create, :show] do
     post 'add_teacher', on: :member
     post 'remove_teacher', on: :member
@@ -9,11 +15,6 @@ Rails.application.routes.draw do
     post 'remove_student', on: :member
   end
 
-  resources :users, only: [ :update ] do
-    post 'login', to: 'users#login', on: :collection
-    post 'logout', to: 'users#logout', on: :collection
-    get 'logout', to: 'users#logout', on: :collection
-    get 'authenticate', to: 'users#authenticate', on: :member
-  end
+  resources :users, only: [ :update ]
 
 end

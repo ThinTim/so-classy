@@ -7,7 +7,7 @@ describe 'user_mailer/sign_in.html.haml', type: :view do
 
     render
 
-    expect(rendered).to include "users/#{@user.id}/authenticate?token=#{@user.token}"
+    expect(rendered).to include "sessions/#{@user.id}/authenticate?token=#{@user.token}"
   end
 
 end
