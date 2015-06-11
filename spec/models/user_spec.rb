@@ -14,6 +14,23 @@ describe User, type: :model do
         expect(invalid_user).not_to be_valid
       end
 
+      it 'should prevent duplicate emails caused by case differences' do
+        domain = Rails.application.config.user_email_domain
+
+        valid_user = User.create(email: "bob@#{domain}")
+        duplicate_user =  User.create(email: "BOB@#{domain}")
+
+        expect(duplicate_user.valid?).to eq false
+      end
+
+      it 'should canonicalise emails' do
+        domain = Rails.application.config.user_email_domain
+
+        valid_user = User.create(email: "BOB@#{domain}")
+
+        expect(valid_user.email).to eq "bob@#{domain}"
+      end
+
     end
 
   end
