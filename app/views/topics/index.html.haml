@@ -3,5 +3,7 @@
   %ul.list-group
     - @topics.each do |topic|
       %li.list-group-item
+        .badge= pluralize(topic.students.size, 'Student')
+        .badge= pluralize(topic.teachers.size, 'Teacher')
         = link_to topic.name, topic
   = link_to "Create a Topic", new_topic_path, class: 'btn btn-lg btn-block btn-primary'
