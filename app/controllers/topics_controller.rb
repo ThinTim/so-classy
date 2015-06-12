@@ -88,13 +88,12 @@ private
     params.require(:topic).permit(:name, :description)
   end
 
-  private
-    def correct_user
-      @topic = Topic.find(params[:id])
-      if not current_user?(@topic.owner)
-        flash[:error] = 'Can not update the selected topic'
-        redirect_to :root
-      end
+  def correct_user
+    @topic = Topic.find(params[:id])
+    if not current_user?(@topic.owner)
+      flash[:error] = 'Can not update the selected topic'
+      redirect_to :root
     end
+  end
 
 end
