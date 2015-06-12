@@ -5,7 +5,7 @@
     -people.each do |person|
       %li.media
         .media-left
-          =image_tag(gravatar_url(person.email), alt: (person.name or person.email), width: '50px', height: '50px')
+          =gravatar_for(person, size=50)
         .media-body
           %h4.media-heading
             %a{href: user_path(person)}= (person.name or person.email)

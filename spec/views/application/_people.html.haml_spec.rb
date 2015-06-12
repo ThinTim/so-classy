@@ -12,7 +12,7 @@ describe 'application/_people.html.haml', type: :view do
     expect(rendered).to include 'jimmy@example.com'
 
     # Avatars
-    assert_select('img[alt="Jimmy"]')
+    assert_select('img[alt*="Jimmy"]')
   end
 
 end
