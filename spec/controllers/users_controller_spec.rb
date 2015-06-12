@@ -2,7 +2,25 @@ require 'rails_helper'
 
 describe UsersController, type: :controller do
 
+  describe 'GET #show' do
+    it 'should render the correct template' do
+      @current_user = User.create(email: 'max@example.com')
+      session[:user_id] = @current_user.id
 
+      get :show, id: @current_user.id
+
+      assert_template :show
+    end
+
+    it 'should display the user' do
+      @current_user = User.create(email: 'max@example.com')
+      session[:user_id] = @current_user.id
+
+      get :show, id: @current_user.id
+
+      expect(assigns(:user)).to eq @current_user
+    end
+  end
 
   describe 'GET #edit' do
     before(:each) do
@@ -10,7 +28,7 @@ describe UsersController, type: :controller do
       session[:user_id] = @existing_user.id
     end
 
-    it 'shuld display the user' do
+    it 'should display the user' do
       get :edit, id: @existing_user.id
 
       expect(assigns(:user)).to eq @existing_user

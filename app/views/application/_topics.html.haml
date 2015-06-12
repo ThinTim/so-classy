@@ -1,0 +1,22 @@
+- if @topics.empty?
+  %p.text-muted No topics to display
+- else
+  - topics.each do |topic|
+    .row
+      .col-xs-12
+        .pull-right
+          .badge= pluralize(topic.teachers.size, 'Teacher')
+          .badge= pluralize(topic.students.size, 'Student')
+
+        %span.h4
+          %a{href: topic_path(topic)}=topic.name
+          %small
+            -if topic.owner
+              by
+              %a.hidden-link{href: user_path(topic.owner)}= topic.owner.name || topic.owner.email
+        -if topic.teachers.include? current_user
+          %span.label.label-success I'm a Teacher
+        -if topic.students.include? current_user
+          %span.label.label-success I'm a Student
+
+        %hr

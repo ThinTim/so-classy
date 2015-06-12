@@ -14,6 +14,6 @@ Rails.application.routes.draw do
     post 'remove_student', on: :member
   end
 
-  resources :users, only: [ :update, :edit ]
+  resources :users, only: [ :show, :update, :edit ]
 
 end
