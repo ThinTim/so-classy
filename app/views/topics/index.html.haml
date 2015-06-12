@@ -1,18 +1,21 @@
 .topics
-  .pull-right
-    %a.btn.btn-primary{href: new_topic_path} 
-      %span.glyphicon.glyphicon-plus
-      Create a Topic
-
-  %h1 
-    Topics
-    %small= "(#{@topics.size})"
-
   .row
     .col-xs-12
       .pull-right
-        %a.btn.btn-sm.btn-link{href: topics_path(order_by: :name, direction: :ascending)} Sort by Name
-        %a.btn.btn-sm.btn-link{href: topics_path(order_by: :popularity, direction: :descending)} Sort by Popularity
+        %a.btn.btn-primary{href: new_topic_path} 
+          %span.glyphicon.glyphicon-plus
+          Create a Topic
+
+  .row
+    .col-xs-6
+      %h1 
+        Topics
+        %small= "(#{@topics.size})"
+    .col-xs-6
+      .h1
+        .pull-right
+          %a.btn.btn-sm.btn-link{href: topics_path(order_by: :name, direction: :ascending)} Sort by Name
+          %a.btn.btn-sm.btn-link{href: topics_path(order_by: :popularity, direction: :descending)} Sort by Popularity
 
   .row
     .col-xs-12
