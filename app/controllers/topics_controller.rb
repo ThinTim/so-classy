@@ -50,6 +50,10 @@ class TopicsController < ApplicationController
     flash[:success] = 'Topic updated'
 
     redirect_to topic_path(@topic)
+  rescue ActiveRecord::RecordInvalid
+    flash[:error] = "Validation failed!"
+
+    redirect_to edit_topic_path(@topic)
   end
 
   def destroy

@@ -18,7 +18,7 @@ $secondary-cta: #D71F2C;
 //$gray-light:             lighten($gray-base, 46.7%) !default; // #777
 //$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 //
-$brand-primary:         darken($primary-cta, 6.5%) !default;
+$brand-primary:         darken($primary-cta, 6.5%);
 //$brand-success:         #5cb85c !default;
 //$brand-info:            #5bc0de !default;
 //$brand-warning:         #f0ad4e !default;
@@ -30,7 +30,7 @@ $brand-primary:         darken($primary-cta, 6.5%) !default;
 ////## Settings for some of the most global styles.
 //
 ////** Background color for `<body>`.
-//$body-bg:               #fff !default;
+$body-bg:               #FEFAFC;
 ////** Global text color on `<body>`.
 //$text-color:            $gray-dark !default;
 //

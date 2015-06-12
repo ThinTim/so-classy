@@ -1,19 +1,44 @@
 .topics
   .pull-right
-    = link_to "Create a Topic", new_topic_path, class: 'btn btn-primary'
+    %a.btn.btn-primary{href: new_topic_path} 
+      %span.glyphicon.glyphicon-plus
+      Create a Topic
 
-  %h1 Topics
+  %h1 
+    Topics
+    %small= "(#{@topics.size})"
 
-  .pull-right
-    %a.btn.btn-link{href: topics_path(order_by: :name, direction: :ascending)} Sort by Name
-    %a.btn.btn-link{href: topics_path(order_by: :popularity, direction: :descending)} Sort by Popularity
+  .row
+    .col-xs-12
+      .pull-right
+        %a.btn.btn-link{href: topics_path(order_by: :name, direction: :ascending)} Sort by Name
+        %a.btn.btn-link{href: topics_path(order_by: :popularity, direction: :descending)} Sort by Popularity
 
-  .clearfix
+  .row
+    .col-xs-12
+      %hr
+      - if @topics.empty?
+        %p.text-muted No topics to display
+      - @topics.each do |topic|
+        .row
+          .col-xs-12
+            .pull-right
+              .badge= pluralize(topic.teachers.size, 'Teacher')
+              .badge= pluralize(topic.students.size, 'Student')
 
-  %ul.list-group
-    - @topics.each do |topic|
-      %li.list-group-item
-        .badge= pluralize(topic.students.size, 'Student')
-        .badge= pluralize(topic.teachers.size, 'Teacher')
-        = link_to topic.name, topic
-  = link_to "Create a Topic", new_topic_path, class: 'btn btn-lg btn-block btn-primary'
+            %span.h4
+              %a{href: topic_path(topic)}=topic.name
+              %small
+                by
+                =#%a.hidden-link{href: user_path(topic.owner)}= topic.owner.name
+                = topic.owner.name
+            -if topic.teachers.include? current_user
+              %span.label.label-success I'm a Teacher
+            -if topic.students.include? current_user
+              %span.label.label-success I'm a Student
+
+            %hr
+
+  %a.btn.btn-lg.btn-block.btn-primary{href: new_topic_path} 
+    %span.glyphicon.glyphicon-plus
+    Create a Topic

@@ -3,6 +3,21 @@ a.secondary {
 }
 
 .navbar-logo {
-	height: $navbar-height;
-	margin-top: -1 * $navbar-padding-vertical;
+  height: $navbar-height;
+  margin-top: -1 * $navbar-padding-vertical;
 }
+
+a.hidden-link {
+  color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  small,
+  .small {
+    a.hidden-link {
+      color: $headings-small-color;
+    }
+  }
+}
+
