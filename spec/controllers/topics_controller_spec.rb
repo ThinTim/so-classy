@@ -23,6 +23,33 @@ describe TopicsController, type: :controller do
       expect(assigns(:topics)).to include testing_topic
     end
 
+    it 'should sort by popularity (descending) by default' do
+      t0 = Topic.create(name: '0')
+      t1 = Topic.create(name: '1')
+      t2 = Topic.create(name: '2')
+
+      u1 = User.create(email: 'geordi@example.com')
+      u2 = User.create(email: 'worf@example.com')
+
+      t2.teachers << u1
+      t2.teachers << u2
+      t1.students << u2
+
+      get :index
+
+      expect(assigns(:topics)).to eq [t2, t1, t0]
+    end
+
+    it 'should sort by requested field' do
+      tb = Topic.create(name: 'b')
+      tx = Topic.create(name: 'x')
+      ta = Topic.create(name: 'a')
+
+      get :index, order_by: 'name', direction: 'ascending'
+
+      expect(assigns(:topics)).to eq [ta, tb, tx]
+    end
+
   end
 
   describe 'GET #new' do

@@ -19,4 +19,12 @@ describe 'topics/index.html.haml', type: :view do
     assert_select('a[href="/topics/new"]')
   end
 
+  it 'should have a link to sort by name' do
+    assign(:topics, [])
+
+    render
+
+    assert_select('a[href*="/topics?"][href*="order_by=name"]')
+  end
+
 end

@@ -6,7 +6,19 @@ class TopicsController < ApplicationController
   end
 
   def index
-    @topics = Topic.all
+    order_by = :popularity
+    direction = :descending
+
+    if sort_params.permitted?
+      order_by = sort_params[:order_by].to_sym if ['name', 'popularity'].include? sort_params[:order_by]
+      direction = sort_params[:direction].to_sym if ['ascending', 'descending'].include? sort_params[:direction]
+    end
+
+    @topics = Topic.all.sort_by(&order_by)
+
+    if(direction == :descending)
+      @topics = @topics.reverse
+    end
   end
 
   def create
@@ -86,6 +98,10 @@ private
 
   def topic_params
     params.require(:topic).permit(:name, :description)
+  end
+
+  def sort_params
+    params.permit(:order_by, :direction)
   end
 
   def correct_user

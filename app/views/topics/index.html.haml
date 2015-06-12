@@ -1,5 +1,15 @@
 .topics
+  .pull-right
+    = link_to "Create a Topic", new_topic_path, class: 'btn btn-primary'
+
   %h1 Topics
+
+  .pull-right
+    %a.btn.btn-link{href: topics_path(order_by: :name, direction: :ascending)} Sort by Name
+    %a.btn.btn-link{href: topics_path(order_by: :popularity, direction: :descending)} Sort by Popularity
+
+  .clearfix
+
   %ul.list-group
     - @topics.each do |topic|
       %li.list-group-item

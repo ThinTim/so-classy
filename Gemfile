@@ -12,7 +12,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.3.4'
-gem 'rails_12factor'
 gem 'newrelic_rpm'
 
 # Use ActiveModel has_secure_password
@@ -36,4 +35,8 @@ end
 
 group :test do
   gem 'assert_difference'
+end
+
+group :production do
+  gem 'rails_12factor'
 end
