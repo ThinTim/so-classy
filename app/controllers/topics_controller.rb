@@ -47,7 +47,9 @@ class TopicsController < ApplicationController
 
     @topic.save!
 
-    redirect_to edit_topic_path(@topic)
+    flash[:success] = 'Topic updated'
+
+    redirect_to topic_path(@topic)
   end
 
   def destroy

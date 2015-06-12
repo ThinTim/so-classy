@@ -4,7 +4,7 @@
 
   %h1= @topic.name
 
-  =form_for :topic, url: topic_path(@topic) do |form|
+  =form_for(@topic, method: :patch) do |form|
     .form-group
       = form.label(:name, class: 'control-label')
       = form.text_field(:name, class: 'form-control')
