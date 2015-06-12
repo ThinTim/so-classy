@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe 'topics/show.html.haml', type: :view do
 
-  let(:morty_owner) { User.new(name: 'Morty', email: 'morty@example.com') }
-  let(:rick_non_owner) { User.new(name: 'Rick', email: 'rick@example.com') }
+  let(:morty_owner) { User.new(id: 44, name: 'Morty', email: 'morty@example.com') }
+  let(:rick_non_owner) { User.new(id: 43, name: 'Rick', email: 'rick@example.com') }
   let(:topic) { Topic.new(name: 'Topic Name', id: 42, owner: morty_owner, description: 'Yep, it\'s a topic') }
 
   before(:each) do
