@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe UsersController, type: :controller do
 
+
+
   describe 'GET #edit' do
     before(:each) do
       @existing_user = User.create(email: 'max@example.com', token: SecureRandom.hex)

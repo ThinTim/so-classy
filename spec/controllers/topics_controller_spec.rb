@@ -16,7 +16,7 @@ describe TopicsController, type: :controller do
     end
 
     it 'should list all topics' do
-      testing_topic = Topic.create
+      testing_topic = Topic.create(name: 'Foobaring')
 
       get :index
 

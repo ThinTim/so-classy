@@ -29,9 +29,8 @@
             %span.h4
               %a{href: topic_path(topic)}=topic.name
               %small
-                by
                 =#%a.hidden-link{href: user_path(topic.owner)}= topic.owner.name
-                = topic.owner.name
+                = "by#{(topic.owner.name || topic.owner.email)}" if topic.owner
             -if topic.teachers.include? current_user
               %span.label.label-success I'm a Teacher
             -if topic.students.include? current_user

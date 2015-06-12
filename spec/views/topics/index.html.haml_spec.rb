@@ -2,8 +2,13 @@ require 'rails_helper'
 
 describe 'topics/index.html.haml', type: :view do
 
+  before(:each) do
+    @current_user = User.create(email: 'current@example.com')
+    allow(view).to receive(:current_user).and_return(@current_user)
+  end
+
   it 'should contain a list of topics' do
-    ruby_topic = Topic.new(name: 'Ruby')
+    ruby_topic = Topic.create(name: 'Ruby')
     assign(:topics, [ruby_topic])
 
     render
