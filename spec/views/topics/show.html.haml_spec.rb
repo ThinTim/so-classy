@@ -4,7 +4,7 @@ describe 'topics/show.html.haml', type: :view do
 
   let(:morty_owner) { User.new(name: 'Morty', email: 'morty@example.com') }
   let(:rick_non_owner) { User.new(name: 'Rick', email: 'rick@example.com') }
-  let(:topic) { Topic.new(name: 'Topic Name', id: 42, owner: morty_owner) }
+  let(:topic) { Topic.new(name: 'Topic Name', id: 42, owner: morty_owner, description: 'Yep, it\'s a topic') }
 
   before(:each) do
     allow(view).to receive(:current_user)
@@ -16,11 +16,15 @@ describe 'topics/show.html.haml', type: :view do
 
     expect(rendered).to include 'Topic Name'
   end
+
+  it 'should display topic description' do
+    render
+
+    expect(rendered).to include 'Yep, it\'s a topic'
+  end
   
 
   it 'should have a back to topics button' do
-    assign(:topic, topic)
-
     render
 
     assert_select('a[href="/topics"]')
@@ -85,24 +89,6 @@ describe 'topics/show.html.haml', type: :view do
       render
 
       expect(rendered).to include 'Enroll'
-    end
-  end
-
-  context 'current_user is the topic owner' do
-    it 'should display a delete button' do
-      allow(view).to receive(:current_user).and_return(morty_owner)
-
-      render
-
-      expect(rendered).to include 'Delete this topic'
-    end
-  end
-
-  context 'current_user is not the topic owner' do
-    it 'should not display a delete button' do
-      allow(view).to receive(:current_user).and_return(rick_non_owner)
-
-      expect(rendered).not_to include 'Delete this topic'
     end
   end
 

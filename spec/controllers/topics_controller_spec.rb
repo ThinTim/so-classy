@@ -47,6 +47,17 @@ describe TopicsController, type: :controller do
         expect(assigns(:topic).name).to eq 'Knife fighting'
       end
 
+      it 'should store the description of the topic if provided' do
+        post :create, topic: {
+            name: 'Knife making',
+            description: 'Tired of cutting steak with a spoon? Then we\'ve got the course for you!'
+        }
+
+        topic = Topic.find_by_name('Knife making')
+
+        expect(assigns(:topic).description).to start_with 'Tired'
+      end
+
       it 'should set the owner of the new topic' do
         post :create, topic: {
             name: 'Knife juggling'
@@ -99,6 +110,41 @@ describe TopicsController, type: :controller do
       get :show, id: topic.id
 
       expect(assigns(:topic)).to eq topic
+    end
+
+  end
+
+  describe 'PATCH #update' do
+    before(:each) do
+      @other_user = User.create(email: 'george@example.com')
+      @topic = Topic.create(name: 'Bowling', owner: @current_user)
+    end
+
+    it 'should not let you change a topic you don\'t own' do
+      @topic.owner = @other_user
+      @topic.save
+
+      patch :update, id: @topic.id, topic: { name: 'Rolling' }
+
+      @topic.reload
+
+      expect(@topic.name).to eq 'Bowling'
+    end
+
+    it 'should update the topic name' do
+      patch :update, id: @topic.id, topic: { name: 'Rolling' }
+
+      @topic.reload
+
+      expect(@topic.name).to eq 'Rolling'
+    end
+
+    it 'should update the topic description' do
+      patch :update, id: @topic.id, topic: { description: 'Not rolling' }
+
+      @topic.reload
+
+      expect(@topic.description).to eq 'Not rolling'
     end
 
   end

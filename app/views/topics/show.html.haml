@@ -1,8 +1,13 @@
 .topics
   .row
     .col-xs-12
-      = link_to 'Back', topics_path, class: 'btn btn-default pull-right'
+      .pull-right
+        -if current_user == @topic.owner
+          = link_to 'Edit', edit_topic_path(@topic), class: 'btn btn-default'
+        = link_to 'Back', topics_path, class: 'btn btn-default'
       %h1= @topic.name
+    .col-xs-12
+      %p= @topic.description
 
   .row
     .col-xs-6
@@ -25,9 +30,3 @@
           = form_tag(add_student_topic_path(@topic.id)) do |form|
             %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Enroll
       = render partial: 'application/people', locals: { people: @topic.students }
-
-  .row
-    .col-xs-12
-      -if current_user == @topic.owner
-        =form_for(@topic, method: :delete) do
-          %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Delete this topic

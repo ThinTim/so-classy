@@ -1,0 +1,19 @@
+.topics
+  .pull-right
+    = link_to 'Back', topic_path(@topic), class: 'btn btn-default'
+
+  %h1= @topic.name
+
+  =form_for :topic, url: topic_path(@topic) do |form|
+    .form-group
+      = form.label(:name, class: 'control-label')
+      = form.text_field(:name, class: 'form-control')
+    .form-group
+      = form.label(:description, 'Description (optional)', class: 'control-label')
+      = form.text_area(:description, class: 'form-control')
+    .form-group
+      %button.btn.btn-default{type: 'submit'} Save
+
+  .pull-right
+    =form_for(@topic, method: :delete, html: { class: 'one-btn-form' }) do
+      %button.btn.btn-secondary{type: "submit"} Delete this topic

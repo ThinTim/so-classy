@@ -1,5 +1,7 @@
 class TopicsController < ApplicationController
 
+  before_filter :correct_user, only: [ :edit, :update ]
+
   def new
   end
 
@@ -20,6 +22,20 @@ class TopicsController < ApplicationController
 
   def show
     @topic = Topic.find(params[:id])
+  end
+
+  def edit
+    @topic = Topic.find(params[:id])
+  end
+
+  def update
+    @topic = Topic.find(params[:id])
+
+    @topic.update_attributes(topic_params)
+
+    @topic.save!
+
+    redirect_to edit_topic_path(@topic)
   end
 
   def destroy
@@ -69,7 +85,16 @@ class TopicsController < ApplicationController
 private
 
   def topic_params
-    params.require(:topic).permit(:name)
+    params.require(:topic).permit(:name, :description)
   end
+
+  private
+    def correct_user
+      @topic = Topic.find(params[:id])
+      if not current_user?(@topic.owner)
+        flash[:error] = 'Can not update the selected topic'
+        redirect_to :root
+      end
+    end
 
 end
