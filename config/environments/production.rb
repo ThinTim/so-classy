@@ -89,4 +89,7 @@ Rails.application.configure do
 
   # Control who can access SoClassy
   config.user_email_domain = ENV['USER_EMAIL_DOMAIN'] || '.*'
+
+  #Set up google analytics
+  config.google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']
 end

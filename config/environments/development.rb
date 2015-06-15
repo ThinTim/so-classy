@@ -45,4 +45,7 @@ Rails.application.configure do
 
   # Control who can access SoClassy
   config.user_email_domain = 'example.com'
+
+  #Set up google analytics
+  config.google_analytics_id = nil
 end
