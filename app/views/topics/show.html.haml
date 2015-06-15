@@ -5,13 +5,20 @@
         -if current_user == @topic.owner
           = link_to 'Edit', edit_topic_path(@topic), class: 'btn btn-default'
         = link_to 'Back', topics_path, class: 'btn btn-default'
-      %h1= @topic.name
+      %h1
+        = @topic.name
+        %small
+          -if @topic.owner
+            by
+            %a.hidden-link{href: user_path(@topic.owner)}= @topic.owner.name || @topic.owner.email
     .col-xs-12
       %p= @topic.description
 
   .row
     .col-xs-6
-      %h2 Teachers
+      %h2 
+        Teachers
+        %small= "(#{@topic.teachers.size})"
       .topic-action
         -if @topic.teachers.include? current_user
           = form_tag(remove_teacher_topic_path(@topic.id)) do |form|
@@ -21,7 +28,9 @@
             %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Volunteer
       = render partial: 'application/people', locals: { people: @topic.teachers }
     .col-xs-6
-      %h2 Students
+      %h2 
+        Students
+        %small= "(#{@topic.students.size})"
       .topic-action
         -if @topic.students.include? current_user
           = form_tag(remove_student_topic_path(@topic.id)) do |form|
