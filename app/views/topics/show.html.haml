@@ -10,7 +10,7 @@
         %small
           -if @topic.owner
             by
-            %a.hidden-link{href: user_path(@topic.owner)}= @topic.owner.name || @topic.owner.email
+            %a.hidden-link{href: user_path(@topic.owner)}= @topic.owner.display_name
     .col-xs-12
       %p= @topic.description
 

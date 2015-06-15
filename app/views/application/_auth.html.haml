@@ -3,9 +3,9 @@
     - if current_user
       .navbar-text
         Welcome, 
-        = link_to "#{current_user.name || current_user.email}!", user_path(current_user)
+        = link_to "#{current_user.display_name}!", user_path(current_user)
       .navbar-text
-        %span Not #{current_user.name || current_user.email}?
+        %span Not #{current_user.display_name}?
         = link_to "Get a new sign in email", destroy_sessions_path, class: 'secondary'
     - else
       = form_tag(sessions_path, class: 'navbar-form') do

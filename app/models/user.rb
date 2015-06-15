@@ -5,6 +5,14 @@ class User < ActiveRecord::Base
 
   before_validation :canonicalise_email
 
+  def display_name
+    if self.name.present?
+      self.name
+    else
+      self.email
+    end
+  end
+
   private 
 
   def canonicalise_email

@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def gravatar_for(person, size=80)
-    display_name = "#{person.name || person.email}'s avatar"
+    display_name = "#{person.display_name}'s avatar"
     tag = image_tag(gravatar_url(person.email, size), alt: display_name, title: display_name) {}
     tag.html_safe
   end
