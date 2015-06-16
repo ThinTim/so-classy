@@ -1,18 +1,19 @@
 !!!
 %html
-%head
-  %title
-    SoClassy
-  = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-  = javascript_include_tag 'application', 'data-turbolinks-track' => true
-  = csrf_meta_tags
-  %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
+  %head
+    %title SoClassy
+    = favicon_link_tag 'apple-touch-icon.png', rel: 'shortcut icon', type: 'image/png'
+    = favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
 
-%body
-  = render 'navbar'
-  .container
-    = render 'flash_messages'
-    = render 'name_missing'
-    = yield
+  %body
+    = render 'navbar'
+    .container
+      = render 'flash_messages'
+      = render 'name_missing'
+      = yield
 
-  = render 'footer'
+    = render 'footer'
