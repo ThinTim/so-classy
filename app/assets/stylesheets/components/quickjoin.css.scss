@@ -1,0 +1,27 @@
+.quickjoin {
+  //Base styles match bootstrap labels, aside from display (inline-block instead of inline)
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: $label-color;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+
+  display: inline-block;
+  background-color: $label-default-bg;
+
+  &:hover {
+    cursor: pointer;
+    background-color: darken($label-default-bg, 10%);
+  }
+
+  &.quickjoin-member {
+    background-color: $label-success-bg;
+    &:hover {
+      background-color: darken($label-success-bg, 10%);
+    }
+  }
+}

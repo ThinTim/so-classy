@@ -277,8 +277,6 @@ describe TopicsController, type: :controller do
     end
 
     it 'should remove the user from the list of teachers' do
-      session[:user_id] = @current_user.id
-
       post :remove_teacher, id: @existing_topic.id
 
       @existing_topic.reload
@@ -326,7 +324,14 @@ describe TopicsController, type: :controller do
           @existing_topic.reload
         end
       end
+    end
 
+    context 'json format' do
+      it 'should return the updated list of students' do
+        post :add_student, id: @existing_topic.id, format: :json
+
+        expect(response.body).to eq [@current_user].to_json
+      end
     end
 
   end
@@ -340,13 +345,19 @@ describe TopicsController, type: :controller do
     end
 
     it 'should remove the user from the list of students' do
-      session[:user_id] = @current_user.id
-
       post :remove_student, id: @existing_topic.id
 
       @existing_topic.reload
 
       expect(@existing_topic.students).not_to include @current_user
+    end
+
+    context 'json format' do
+      it 'should return the updated list of students' do
+        post :remove_student, id: @existing_topic.id, format: :json
+
+        expect(response.body).to eq [].to_json
+      end
     end
 
   end

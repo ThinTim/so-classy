@@ -72,7 +72,11 @@ class TopicsController < ApplicationController
     topic = Topic.find(params[:id])
     topic.teachers << current_user
     topic.save!
-    redirect_to(topic)
+
+    respond_to do |format|
+      format.html { redirect_to(topic) }
+      format.json { render json: topic.teachers }
+    end
   rescue ActiveRecord::RecordInvalid
     render nothing: true, status: 409
   end
@@ -81,14 +85,22 @@ class TopicsController < ApplicationController
     topic = Topic.find(params[:id])
     topic.teachers.delete(current_user)
     topic.save!
-    redirect_to(topic)
+
+    respond_to do |format|
+      format.html { redirect_to(topic) }
+      format.json { render json: topic.teachers }
+    end
   end
 
   def add_student
     topic = Topic.find(params[:id])
     topic.students << current_user
     topic.save!
-    redirect_to(topic)
+
+    respond_to do |format|
+      format.html { redirect_to(topic) }
+      format.json { render json: topic.students }
+    end
   rescue ActiveRecord::RecordInvalid
     render nothing: true, status: 409
   end
@@ -97,7 +109,11 @@ class TopicsController < ApplicationController
     topic = Topic.find(params[:id])
     topic.students.delete(current_user)
     topic.save!
-    redirect_to(topic)
+
+    respond_to do |format|
+      format.html { redirect_to(topic) }
+      format.json { render json: topic.students }
+    end
   end
 
 private

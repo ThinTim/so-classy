@@ -5,9 +5,9 @@
     .row
       .col-xs-12
         .pull-right
-          %span.label{class: (topic.teachers.include? current_user) ? 'label-success' : 'label-default' }= pluralize(topic.teachers.size, 'Teacher')
-          %span.label{class: (topic.students.include? current_user) ? 'label-success' : 'label-default' }= pluralize(topic.students.size, 'Student')
-
+          =react_component('QuickJoin', { collectionName: 'Teacher', initialMemberCount: topic.teachers.size, isInitiallyMember: (topic.teachers.include? current_user), joinUrl: add_teacher_topic_path(topic), leaveUrl: remove_teacher_topic_path(topic) }, { tag: 'span' })
+          =react_component('QuickJoin', { collectionName: 'Student', initialMemberCount: topic.students.size, isInitiallyMember: (topic.students.include? current_user), joinUrl: add_student_topic_path(topic), leaveUrl: remove_student_topic_path(topic) }, { tag: 'span' })
+          
         %span.h4
           %a{href: topic_path(topic)}=topic.name
           %small
