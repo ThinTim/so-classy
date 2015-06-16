@@ -50,6 +50,16 @@ describe TopicsController, type: :controller do
       expect(assigns(:topics)).to eq [ta, tb, tx]
     end
 
+    context 'when requesting json' do 
+      it 'should return results as a json list' do
+        tb = Topic.create(name: 'b')
+        ta = Topic.create(name: 'a')
+
+        get :index, order_by: 'name', direction: 'ascending', format: :json
+
+        expect(response.body).to eq [ta, tb].to_json(include: [:owner, :teachers, :students])
+      end
+    end
   end
 
   describe 'GET #new' do
@@ -326,7 +336,7 @@ describe TopicsController, type: :controller do
       end
     end
 
-    context 'json format' do
+    context 'when requesting json' do
       it 'should return the updated list of students' do
         post :add_student, id: @existing_topic.id, format: :json
 
@@ -352,7 +362,7 @@ describe TopicsController, type: :controller do
       expect(@existing_topic.students).not_to include @current_user
     end
 
-    context 'json format' do
+    context 'when requesting json' do
       it 'should return the updated list of students' do
         post :remove_student, id: @existing_topic.id, format: :json
 

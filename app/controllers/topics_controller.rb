@@ -19,6 +19,11 @@ class TopicsController < ApplicationController
     if(direction == :descending)
       @topics = @topics.reverse
     end
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @topics, include: [:owner, :teachers, :students] }
+    end
   end
 
   def create
