@@ -4,7 +4,8 @@
   @include make-md-column(10);
   @include make-md-column-offset(1);
 
-  .topic-action {
+  .topic-actions {
+    margin-top: 2rem;
     margin-bottom: 2rem;
   }
 

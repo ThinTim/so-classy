@@ -7,13 +7,14 @@ Rails.application.routes.draw do
     get 'authenticate', to: 'sessions#authenticate', on: :member
   end
 
-  resources :topics, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+  resources :topics, only: [ :index, :new, :create, :show, :edit, :update, :destroy ] do
     post 'add_teacher', on: :member
     post 'remove_teacher', on: :member
     post 'add_student', on: :member
     post 'remove_student', on: :member
+    
+    resources :comments, only: [ :index, :create, :destroy ]
   end
 
   resources :users, only: [ :show, :update, :edit ]
-
 end

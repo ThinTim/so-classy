@@ -1,0 +1,19 @@
+- if comments.empty?
+  %p.text-muted No comments to display
+%ul.media-list
+  - comments.sort_by(&:created_at).reverse.each_with_index do |comment, index|
+    %li.media
+      -if current_user == comment.author
+        .pull-right
+          =form_for([topic, comment], method: :delete, html: { class: 'one-btn-form' }) do
+            %button.btn.btn-link{type: "submit"} Delete
+      .media-left
+        =gravatar_for(comment.author, size=50)
+      .media-body
+        %h4.media-heading
+          %span= comment.author.display_name
+          %small
+            =react_component('RelativeTime', { iso8601: comment.created_at.iso8601 }, { tag: 'span' })
+        =simple_format(comment.body)
+      -if index < (comments.size - 1) #No line under the last comment
+        %hr

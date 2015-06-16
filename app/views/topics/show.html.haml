@@ -12,30 +12,64 @@
             by
             %a.hidden-link{href: user_path(@topic.owner)}= @topic.owner.display_name
     .col-xs-12
-      %p= @topic.description
+      %p= simple_format(@topic.description)
+
+  .row.topic-actions
+    .col-xs-6
+      -if @topic.teachers.include? current_user
+        = form_tag(remove_teacher_topic_path(@topic)) do |form|
+          %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Stop Volunteering
+      -else
+        = form_tag(add_teacher_topic_path(@topic)) do |form|
+          %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Volunteer to Teach
+
+    .col-xs-6
+      -if @topic.students.include? current_user
+        = form_tag(remove_student_topic_path(@topic)) do |form|
+          %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Unenroll
+      -else
+        = form_tag(add_student_topic_path(@topic)) do |form|
+          %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Enroll as Student
 
   .row
-    .col-xs-6
+    .col-xs-12
       %h2 
-        Teachers
-        %small= "(#{@topic.teachers.size})"
-      .topic-action
-        -if @topic.teachers.include? current_user
-          = form_tag(remove_teacher_topic_path(@topic.id)) do |form|
-            %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Stop Volunteering
-        -else
-          = form_tag(add_teacher_topic_path(@topic.id)) do |form|
-            %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Volunteer
-      = render partial: 'application/people', locals: { people: @topic.teachers }
-    .col-xs-6
+        Members
+        %small= "(#{@topic.members.size})"
+        %a.btn.btn-sm.btn-default{href: '#member-list', 'data-toggle' => 'collapse'} Show/Hide Members
+
+      .row.collapse#member-list
+        .col-xs-6
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title
+                Teachers
+                %small= "(#{@topic.teachers.size})"
+            .panel-body
+              = render partial: 'users/user_list', locals: { users: @topic.teachers }
+        .col-xs-6
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title
+                Students
+                %small= "(#{@topic.students.size})"
+            .panel-body
+              = render partial: 'users/user_list', locals: { users: @topic.students }
+
+  .row
+    .col-xs-12
       %h2 
-        Students
-        %small= "(#{@topic.students.size})"
-      .topic-action
-        -if @topic.students.include? current_user
-          = form_tag(remove_student_topic_path(@topic.id)) do |form|
-            %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Unenroll
-        -else
-          = form_tag(add_student_topic_path(@topic.id)) do |form|
-            %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Enroll
-      = render partial: 'application/people', locals: { people: @topic.students }
+        Comments
+        %small= "(#{@topic.comments.size})"
+        %a.btn.btn-sm.btn-default{href: '#comment-form', 'data-toggle' => 'collapse'} Add a comment
+      .collapse#comment-form
+        = form_for [@topic, Comment.new] do |form|
+          .form-group
+            = form.label(:body, 'Comment', class: 'control-label')
+            = form.text_area(:body, class: 'form-control')
+          .form-group
+            %button.btn.btn-primary{type: "submit"} Submit
+
+      .panel.panel-default
+        .panel-body
+          = render partial: 'comments/comment_list', locals: { topic: @topic, comments: @topic.comments }

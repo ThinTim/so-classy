@@ -20,7 +20,7 @@
   .row
     .col-xs-12
       %hr
-      =render partial: 'application/topics', locals: { topics: @topics }
+      =render partial: 'topics/topic_list', locals: { topics: @topics }
 
   %a.btn.btn-lg.btn-block.btn-primary{href: new_topic_path} 
     %span.glyphicon.glyphicon-plus

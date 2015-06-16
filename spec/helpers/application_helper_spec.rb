@@ -11,7 +11,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
   describe 'gravatar_for' do
     it 'should return an image tag' do
-      tag = helper.gravatar_for(User.new(name: 'jim', email: 'jim@jimmy.com'))
+      tag = helper.gravatar_for(User.new(id: 42, name: 'jim', email: 'jim@jimmy.com'))
 
       expect(tag).to include '<img'
     end
