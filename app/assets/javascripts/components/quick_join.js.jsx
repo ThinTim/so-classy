@@ -1,52 +1,45 @@
 window.QuickJoin = React.createClass({ 
   displayName: 'QuickJoin',
   handleClick: function(evt) {
-    var self = this,
-        request;
+    var request;
 
     evt.stopPropagation();
     evt.preventDefault();
 
-    if(self.state.isLoading) return;
+    if(this.state.isLoading) return;
 
-    self.setState({
+    this.setState({
       isLoading: true
     });
 
-    if(self.state.isMember) {
-      request = self.leave();
+    if(this.state.isMember) {
+      request = this.leave();
     } else {
-      request = self.join();
+      request = this.join();
     }
 
-    request.finally(function() {
-      if(self.isMounted()) {
-        self.setState({
+    request.finally(() => {
+      if(this.isMounted()) {
+        this.setState({
           isLoading: false
         })
       }
     });
   },
   handleMouseEnter: function() {
-    var self = this;
-
-    self.setState({
+    this.setState({
       isHovering: true
     });
   },
   handleMouseLeave: function() {
-    var self = this;
-
-    self.setState({
+    this.setState({
       isHovering: false
     });
   },
   join: function() {
-    var self = this;
-
-    return server.send('POST', self.props.joinUrl, null).then(function(response) {
-      if (self.isMounted()) {
-        self.setState({
+    return server.send('POST', this.props.joinUrl, null).then((response) => {
+      if (this.isMounted()) {
+        this.setState({
           isMember: true,
           memberCount: response.length
         });
@@ -54,15 +47,13 @@ window.QuickJoin = React.createClass({
     });
   },
   leave: function() {
-    var self = this;
-
-    self.setState({
+    this.setState({
       isLoading: true
     });
 
-    return server.send('POST', self.props.leaveUrl, null).then(function(response) {
-      if (self.isMounted()) {
-        self.setState({
+    return server.send('POST', this.props.leaveUrl, null).then((response) => {
+      if (this.isMounted()) {
+        this.setState({
           isMember: false,
           memberCount: response.length
         });
@@ -70,39 +61,35 @@ window.QuickJoin = React.createClass({
     });
   },
   getInitialState: function() {
-    var self = this;
-
     return {
       isLoading: false,
       isHovering: false,
-      isMember: self.props.isInitiallyMember,
-      memberCount: self.props.initialMemberCount
+      isMember: this.props.isInitiallyMember,
+      memberCount: this.props.initialMemberCount
     }
   },
   render: function() {
-    var self = this,
-        cx = React.addons.classSet,
-        classes,
+    var classes,
         content;
 
-    classes = cx({
+    classes = classNames({
       'quickjoin': true,
-      'quickjoin-member': self.state.isMember,
+      'quickjoin-member': this.state.isMember,
     });
 
-    if(self.state.isLoading) {
+    if(this.state.isLoading) {
       content = 'Updating...'
-    } else if(self.state.isHovering) {
-      content = self.state.isMember ? 'Leave' : 'Join';
+    } else if(this.state.isHovering) {
+      content = this.state.isMember ? 'Leave' : 'Join';
     } else {
-      content = self.state.memberCount + ' ' + (self.state.memberCount === 1 ? self.props.collectionName : self.props.collectionName + 's');
+      content = this.state.memberCount + ' ' + (this.state.memberCount === 1 ? this.props.collectionName : this.props.collectionName + 's');
     }
 
     return (<span 
       className={classes}
-      onMouseEnter={self.handleMouseEnter} 
-      onMouseLeave={self.handleMouseLeave}
-      onClick={self.handleClick}>
+      onMouseEnter={this.handleMouseEnter} 
+      onMouseLeave={this.handleMouseLeave}
+      onClick={this.handleClick}>
       
       {content}
 

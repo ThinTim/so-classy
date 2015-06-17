@@ -3,7 +3,5 @@
 #= require react
 #= require react_ujs
 #= require touch
-#= require moment
 
-#= require server
 #= require components
