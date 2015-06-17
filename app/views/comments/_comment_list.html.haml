@@ -1,5 +1,5 @@
 - if comments.empty?
-  %p.text-muted No comments to display
+  .alert.alert-info No comments to display
 %ul.media-list
   - comments.sort_by(&:created_at).reverse.each_with_index do |comment, index|
     %li.media

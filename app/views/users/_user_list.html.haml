@@ -1,6 +1,6 @@
 %ul.media-list
   -if users.empty?
-    %p.text-muted No people to display
+    .alert.alert-info No users to display
   -else
     -users.each do |user|
       %li.media
