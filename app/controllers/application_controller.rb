@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user
 
   helper_method :current_user
+  helper_method :current_user?
 
   def current_user
     if session[:user_id]

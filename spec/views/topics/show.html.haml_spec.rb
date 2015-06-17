@@ -8,6 +8,8 @@ describe 'topics/show.html.haml', type: :view do
 
   before(:each) do
     allow(view).to receive(:current_user)
+    allow(view).to receive(:current_user?)
+
     assign(:topic, topic)
   end
 
@@ -51,6 +53,9 @@ describe 'topics/show.html.haml', type: :view do
   context 'when the user is a teacher' do
     it 'should have a stop teaching button' do
       allow(view).to receive(:current_user).and_return(rick_non_owner)
+      allow(view).to receive(:current_user?).with(rick_non_owner).and_return(true)
+      allow(view).to receive(:current_user?).with(any_args).and_return(false)
+
       topic.teachers = [rick_non_owner]
 
       render
@@ -62,6 +67,9 @@ describe 'topics/show.html.haml', type: :view do
   context 'when the user is not a teacher' do
     it 'should have a volunteer button' do
       allow(view).to receive(:current_user).and_return(rick_non_owner)
+      allow(view).to receive(:current_user?).with(rick_non_owner).and_return(true)
+      allow(view).to receive(:current_user?).with(any_args).and_return(false)
+
       topic.teachers = []
 
       render
@@ -73,6 +81,9 @@ describe 'topics/show.html.haml', type: :view do
   context 'when the user is a learner' do
     it 'should have a stop learning button' do
       allow(view).to receive(:current_user).and_return(rick_non_owner)
+      allow(view).to receive(:current_user?).with(rick_non_owner).and_return(true)
+      allow(view).to receive(:current_user?).with(any_args).and_return(false)
+
       topic.students = [rick_non_owner]
 
       render
@@ -84,6 +95,9 @@ describe 'topics/show.html.haml', type: :view do
   context 'when the user is not a learner' do
     it 'should have a learn button' do
       allow(view).to receive(:current_user).and_return(rick_non_owner)
+      allow(view).to receive(:current_user?).with(rick_non_owner).and_return(true)
+      allow(view).to receive(:current_user?).with(any_args).and_return(false)
+      
       topic.students = []
 
       render

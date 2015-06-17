@@ -2,7 +2,7 @@
   .row
     .col-xs-12
       .pull-right
-        -if current_user == @topic.owner
+        -if current_user? @topic.owner
           = link_to 'Edit', edit_topic_path(@topic), class: 'btn btn-default'
         = link_to 'Back', topics_path, class: 'btn btn-default'
       %h1

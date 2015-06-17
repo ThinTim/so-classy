@@ -3,7 +3,7 @@
 %ul.media-list
   - comments.sort_by(&:created_at).reverse.each_with_index do |comment, index|
     %li.media
-      -if current_user == comment.author
+      -if current_user? comment.author
         .pull-right
           =form_for([topic, comment], method: :delete, html: { class: 'one-btn-form' }) do
             %button.btn.btn-link{type: "submit"} Delete

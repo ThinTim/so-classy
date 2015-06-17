@@ -4,7 +4,10 @@ describe 'comments/_comment_list.html.haml', type: :view do
 
   before(:each) do
     current_user = User.new(id: 22, name: 'Current', email: 'current@example.com')
-    allow(view).to receive(:current_user).and_return current_user
+    allow(view).to receive(:current_user).and_return(current_user)
+    
+    allow(view).to receive(:current_user?).with(current_user).and_return(true)
+    allow(view).to receive(:current_user?).with(any_args).and_return(false)
   end
 
   it 'should display comments' do
