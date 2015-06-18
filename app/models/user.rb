@@ -13,6 +13,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  def as_json(options={})
+    options[:except] ||= [:token]
+    super(options)
+  end
+
+  def as_xml(options={})
+    options[:except] ||= [:token]
+    super(options)
+  end
+
   private 
 
   def canonicalise_email

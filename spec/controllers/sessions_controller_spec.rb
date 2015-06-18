@@ -44,6 +44,14 @@ RSpec.describe SessionsController, type: :controller do
 
     context 'when the token matches the user in the database' do
 
+      it 'should reset the user\'s token' do
+        expect {
+          get :authenticate, id: @existing_user.id, token: @existing_user.token
+
+          @existing_user.reload
+        }.to change { @existing_user.token }
+      end
+
       it 'should reset the session' do
         session[:old_data] = 'old data'
         get :authenticate, id: @existing_user.id, token: @existing_user.token

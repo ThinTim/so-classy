@@ -3,7 +3,7 @@ require 'rails_helper'
 describe TopicsController, type: :controller do
 
   before(:each) do 
-    @current_user = User.create(email: 'jimmy@example.com')
+    @current_user = User.create(email: 'jimmy@example.com', token: SecureRandom.hex)
     session[:user_id] = @current_user.id
   end
 
@@ -273,7 +273,20 @@ describe TopicsController, type: :controller do
           @existing_topic.reload
         end
       end
+    end
 
+    context 'when requesting json' do
+      it 'should return the updated list of students' do
+        post :add_student, id: @existing_topic.id, format: :json
+
+        expect(response.body).to eq [@current_user].to_json
+      end
+
+      it 'should exclude the user\'s token from the response' do
+        post :add_student, id: @existing_topic.id, format: :json
+
+        expect(response.body).not_to include @current_user.token
+      end
     end
 
   end
@@ -292,6 +305,24 @@ describe TopicsController, type: :controller do
       @existing_topic.reload
 
       expect(@existing_topic.teachers).not_to include @current_user
+    end
+
+    context 'when requesting json' do
+      it 'should return the updated list of teachers' do
+        post :remove_teacher, id: @existing_topic.id, format: :json
+
+        expect(response.body).to eq [].to_json
+      end
+
+      it 'should exclude the user\'s token from the response' do
+        other_user = User.create(email: 'secure@example.com', token: SecureRandom.hex)
+        @existing_topic.teachers << other_user
+        @existing_topic.save!
+
+        post :remove_teacher, id: @existing_topic.id, format: :json
+
+        expect(response.body).not_to include other_user.token
+      end
     end
 
   end
@@ -342,6 +373,12 @@ describe TopicsController, type: :controller do
 
         expect(response.body).to eq [@current_user].to_json
       end
+
+      it 'should exclude the user\'s token from the response' do
+        post :add_student, id: @existing_topic.id, format: :json
+
+        expect(response.body).not_to include @current_user.token
+      end
     end
 
   end
@@ -367,6 +404,16 @@ describe TopicsController, type: :controller do
         post :remove_student, id: @existing_topic.id, format: :json
 
         expect(response.body).to eq [].to_json
+      end
+
+      it 'should exclude the user\'s token from the response' do
+        other_user = User.create(email: 'secure@example.com', token: SecureRandom.hex)
+        @existing_topic.students << other_user
+        @existing_topic.save!
+
+        post :remove_student, id: @existing_topic.id, format: :json
+
+        expect(response.body).not_to include other_user.token
       end
     end
 
