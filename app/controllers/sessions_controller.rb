@@ -26,6 +26,10 @@ class SessionsController < ApplicationController
 
     user = User.find(params[:id])
     if user.token == params[:token]
+      #Reset token so it won't work again
+      user.token = SecureRandom.hex
+      user.save!
+
       session[:user_id] = user.id
       flash[:success] = 'Logged in successfully'
       redirect_to :root
