@@ -33,20 +33,36 @@ describe User, type: :model do
 
     end
 
-    describe 'display_name' do
-      it 'should return the user\'s name if available' do
-        user = User.new(name: 'Jim', email: 'jim@example.com')
+  end
 
-        expect(user.display_name).to eq 'Jim'
-      end
+  describe 'display_name' do
+    it 'should return the user\'s name if available' do
+      user = User.new(name: 'Jim', email: 'jim@example.com')
 
-      it 'should return the user\'s email if the name is not available' do
-        user = User.new(name: '', email: 'jim@example.com')
-
-        expect(user.display_name).to eq 'jim@example.com'
-      end
+      expect(user.display_name).to eq 'Jim'
     end
 
+    it 'should return the user\'s email if the name is not available' do
+      user = User.new(name: '', email: 'jim@example.com')
+
+      expect(user.display_name).to eq 'jim@example.com'
+    end
+  end
+
+  describe 'to_xml' do
+    it 'should exclude the user\'s token' do
+      user = User.create(email: 'token@example.com', token: SecureRandom.hex)
+      
+      expect(user.to_xml).not_to include user.token
+    end
+  end
+
+  describe 'as_json' do
+    it 'should exclude the user\'s token' do
+      user = User.create(email: 'token@example.com', token: SecureRandom.hex)
+
+      expect(user.as_json).not_to include user.token
+    end
   end
 
 end

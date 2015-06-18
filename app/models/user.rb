@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
     super(options)
   end
 
-  def as_xml(options={})
+  def to_xml(options={})
     options[:except] ||= [:token]
     super(options)
   end
