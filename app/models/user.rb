@@ -15,11 +15,13 @@ class User < ActiveRecord::Base
 
   def as_json(options={})
     options[:except] ||= [:token]
+    options[:methods] ||= [:display_name]
     super(options)
   end
 
   def to_xml(options={})
     options[:except] ||= [:token]
+    options[:methods] ||= [:display_name]
     super(options)
   end
 

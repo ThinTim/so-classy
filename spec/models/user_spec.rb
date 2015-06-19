@@ -55,6 +55,12 @@ describe User, type: :model do
       
       expect(user.to_xml).not_to include user.token
     end
+
+    it 'should include the user\'s display name' do
+      user = User.create(email: 'token@example.com', token: SecureRandom.hex)
+      
+      expect(user.to_xml).to include 'display-name'
+    end
   end
 
   describe 'as_json' do
@@ -62,6 +68,12 @@ describe User, type: :model do
       user = User.create(email: 'token@example.com', token: SecureRandom.hex)
 
       expect(user.as_json).not_to include user.token
+    end
+
+    it 'should include the user\'s display name' do
+      user = User.create(email: 'token@example.com', token: SecureRandom.hex)
+      
+      expect(user.as_json).to include 'display_name'
     end
   end
 

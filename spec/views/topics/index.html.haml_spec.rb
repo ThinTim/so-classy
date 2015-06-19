@@ -29,7 +29,7 @@ describe 'topics/index.html.haml', type: :view do
 
     render
 
-    assert_select('a[href*="/topics?"][href*="order_by=name"]')
+    assert_select('a[href*="/topics?"][href*="sort=name"]')
   end
 
 end

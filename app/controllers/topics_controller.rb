@@ -3,18 +3,26 @@ class TopicsController < ApplicationController
   before_filter :correct_user, only: [ :edit, :update ]
 
   def new
+    @topic = Topic.new(name: params[:prefill]) if params[:prefill]
   end
 
   def index
-    order_by = :popularity
-    direction = :descending
+    query = search_params
 
-    if sort_params.permitted?
-      order_by = sort_params[:order_by].to_sym if ['name', 'popularity'].include? sort_params[:order_by]
-      direction = sort_params[:direction].to_sym if ['ascending', 'descending'].include? sort_params[:direction]
+    query[:sort] ||= 'popularity'
+    query[:direction] ||= 'descending'
+    query[:name] ||= ''
+
+    query[:sort].downcase!
+    query[:direction].downcase!
+    query[:name].downcase!
+
+    if query.permitted?
+      sort = query[:sort].to_sym if ['name', 'popularity'].include? query[:sort]
+      direction = query[:direction].to_sym if ['ascending', 'descending'].include? query[:direction]
     end
 
-    @topics = Topic.all.sort_by(&order_by)
+    @topics = Topic.where('lower(name) LIKE ?', "%#{query[:name]}%").sort_by(&sort)
 
     if(direction == :descending)
       @topics = @topics.reverse
@@ -22,7 +30,7 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       format.html 
-      format.json { render json: @topics, include: [:owner, :teachers, :students] }
+      format.json { render json: @topics.map { |t| topic_json(t) } }
     end
   end
 
@@ -127,8 +135,8 @@ private
     params.require(:topic).permit(:name, :description)
   end
 
-  def sort_params
-    params.permit(:order_by, :direction)
+  def search_params
+    params.permit(:sort, :direction, :name)
   end
 
   def correct_user
@@ -137,6 +145,23 @@ private
       flash[:error] = 'Can not update the selected topic'
       redirect_to :root
     end
+  end
+
+  def topic_json(topic)
+    topic.as_json.merge({
+      owner: topic.owner.as_json.merge({ routes: { show: user_path(topic.owner) } }),
+      isTeaching: topic.teachers.include?(current_user),
+      isLearning: topic.students.include?(current_user),
+      teacherCount: topic.teachers.size,
+      studentCount: topic.students.size,
+      routes: {
+        show: topic_path(topic),
+        teach: add_teacher_topic_path(topic), 
+        stopTeaching: remove_teacher_topic_path(topic),
+        learn: add_student_topic_path(topic), 
+        stopLearning: remove_student_topic_path(topic)
+      }
+    })
   end
 
 end

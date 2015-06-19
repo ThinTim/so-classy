@@ -45,19 +45,20 @@ describe TopicsController, type: :controller do
       tx = Topic.create(name: 'x')
       ta = Topic.create(name: 'a')
 
-      get :index, order_by: 'name', direction: 'ascending'
+      get :index, sort: 'name', direction: 'ascending'
 
       expect(assigns(:topics)).to eq [ta, tb, tx]
     end
 
     context 'when requesting json' do 
       it 'should return results as a json list' do
-        tb = Topic.create(name: 'b')
-        ta = Topic.create(name: 'a')
+        tb = Topic.create(name: 'b', owner: @current_user)
+        ta = Topic.create(name: 'a', owner: @current_user)
 
-        get :index, order_by: 'name', direction: 'ascending', format: :json
+        get :index, sort: 'name', direction: 'ascending', format: :json
 
-        expect(response.body).to eq [ta, tb].to_json(include: [:owner, :teachers, :students])
+        results = JSON.parse response.body
+        expect(results.size).to eq 2
       end
     end
   end
