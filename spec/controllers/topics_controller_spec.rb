@@ -277,14 +277,16 @@ describe TopicsController, type: :controller do
     end
 
     context 'when requesting json' do
-      it 'should return the updated list of students' do
-        post :add_student, id: @existing_topic.id, format: :json
+      it 'should return the updated list of teachers' do
+        post :add_teacher, id: @existing_topic.id, format: :json
 
-        expect(response.body).to eq [@current_user].to_json
+        response_hash = JSON.parse(response.body)
+
+        expect(response_hash['teachers'].first()['name']).to eq @current_user.name
       end
 
       it 'should exclude the user\'s token from the response' do
-        post :add_student, id: @existing_topic.id, format: :json
+        post :add_teacher, id: @existing_topic.id, format: :json
 
         expect(response.body).not_to include @current_user.token
       end
@@ -312,7 +314,9 @@ describe TopicsController, type: :controller do
       it 'should return the updated list of teachers' do
         post :remove_teacher, id: @existing_topic.id, format: :json
 
-        expect(response.body).to eq [].to_json
+        expected_response = { member_count: 0, teachers: [] }.to_json
+
+        expect(response.body).to eq expected_response
       end
 
       it 'should exclude the user\'s token from the response' do
@@ -372,7 +376,9 @@ describe TopicsController, type: :controller do
       it 'should return the updated list of students' do
         post :add_student, id: @existing_topic.id, format: :json
 
-        expect(response.body).to eq [@current_user].to_json
+        response_hash = JSON.parse(response.body)
+
+        expect(response_hash['students'].first()['name']).to eq @current_user.name
       end
 
       it 'should exclude the user\'s token from the response' do
@@ -404,7 +410,9 @@ describe TopicsController, type: :controller do
       it 'should return the updated list of students' do
         post :remove_student, id: @existing_topic.id, format: :json
 
-        expect(response.body).to eq [].to_json
+        expected_response = { member_count: 0, students: [] }.to_json
+
+        expect(response.body).to eq expected_response
       end
 
       it 'should exclude the user\'s token from the response' do

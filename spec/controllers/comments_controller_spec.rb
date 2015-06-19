@@ -22,6 +22,14 @@ describe CommentsController, type: :controller do
 
       expect(assigns(:comments)).to eq(@main_topic.comments)
     end
+
+    context 'when requesting json' do
+      it 'should return json' do
+        get :index, format: :json, topic_id: @main_topic.id
+
+        expect(JSON.parse(response.body).first()['body']).to eq 'This is an impossible topic'
+      end
+    end
   end
 
   describe 'create' do
@@ -37,6 +45,14 @@ describe CommentsController, type: :controller do
       post :create, topic_id: @main_topic.id, comment: { body: 'The body' }
       
       assert_redirected_to @main_topic
+    end
+
+    context 'when requesting json' do
+      it 'should return the updated comment list as json' do
+        post :create, format: :json, topic_id: @main_topic.id, comment: { body: 'The body' }
+      
+        expect(JSON.parse(response.body).size).to eq 2
+      end
     end
   end
 
@@ -60,6 +76,14 @@ describe CommentsController, type: :controller do
         post :destroy, topic_id: @main_topic.id, id: @main_topic.comments.first.id
 
         @main_topic.reload
+      end
+    end
+
+    context 'when requesting json' do
+      it 'should return the updated comment list as json' do
+        post :destroy, format: :json, topic_id: @other_topic.id, id: @other_topic.comments.first.id
+      
+        expect(JSON.parse(response.body).size).to eq 0
       end
     end
   end

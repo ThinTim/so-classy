@@ -8,21 +8,35 @@
       =render 'application/back_button'
 
   .row
-    .col-xs-6
+    .col-xs-12
       %h1 
         Topics
-        %small= "(#{@topics.size})"
-    .col-xs-6
-      .h1
-        .pull-right
-          %a.btn.btn-sm.btn-link{href: topics_path(sort: :name, direction: :ascending)} Sort by Name
-          %a.btn.btn-sm.btn-link{href: topics_path(sort: :popularity, direction: :descending)} Sort by Popularity
-
+        %small{ 'data-bind': 'text: "(" + topics().length + ")"' }
+  
   .row
-    .col-xs-12
-      %hr
-      =render partial: 'topics/topic_list', locals: { topics: @topics }
+    .col-xs-8
+      %input.form-control{ 'data-bind': 'textInput: searchParams.name, event: { keypress: onEnter }', placeholder: 'Search for a Topic' }
+    .col-xs-4
+      .pull-right
+        %a.btn.btn-sm.btn-link{ 'data-bind': 'click: function() { searchParams.sort({ property: "name", direction: "ascending" }); }' } Sort by Name
+        %a.btn.btn-sm.btn-link{ 'data-bind': 'click: function() { searchParams.sort({ property: "popularity", direction: "descending" }); }' } Sort by Popularity
+  
+  
+  .row
+    .col-xs-12.loadmaskable
+      .div{ 'data-bind': 'if: topics.isUpdating' }
+        .loadmask
+          %p.loadmask-message Updating...
+
+      .div{'data-bind': 'with: topics'}
+        =render 'topic_list' 
+
 
   %a.btn.btn-lg.btn-block.btn-primary{href: new_topic_path} 
     %span.glyphicon.glyphicon-plus
     Create a Topic
+
+:javascript
+  var model = new TopicSearchViewModel();
+  ko.applyBindings(model, document.getElementsByClassName('topics').item(0));
+  model.search();

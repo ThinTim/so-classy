@@ -1,17 +1,21 @@
-- if topics.empty?
-  .alert.alert-info No topics to display
-- else
-  - topics.each do |topic|
-    .row
-      .col-xs-12
-        .pull-right
-          =react_component('QuickJoin', { collectionName: 'Teacher', initialMemberCount: topic.teachers.size, isInitiallyMember: (topic.teachers.include? current_user), joinUrl: add_teacher_topic_path(topic), leaveUrl: remove_teacher_topic_path(topic) }, { tag: 'span' })
-          =react_component('QuickJoin', { collectionName: 'Student', initialMemberCount: topic.students.size, isInitiallyMember: (topic.students.include? current_user), joinUrl: add_student_topic_path(topic), leaveUrl: remove_student_topic_path(topic) }, { tag: 'span' })
-          
-        %span.h4
-          %a{href: topic_path(topic)}=topic.name
-          %small
-            -if topic.owner
-              by
-              %a.hidden-link{href: user_path(topic.owner)}= topic.owner.display_name
-        %hr
+.div{ 'data-bind': 'if: $data.length === 0' }
+  %hr
+  .alert.alert-info 
+    No topics to display. Press
+    %kbd Enter
+    to create a topic with this name.
+.div{ 'data-bind': 'foreach: $data' }
+  .div{ 'data-bind': "if: $index() === 0"}
+    %hr
+  .row
+    .col-xs-12
+      .pull-right
+        %quick-join{ params: '{ collectionName: "Teacher", collection: teachers, joinFunction: teach, leaveFunction: stopTeaching }' }
+        %quick-join{ params: '{ collectionName: "Student", collection: students, joinFunction: learn, leaveFunction: stopLearning }' }
+        
+      %span.h4
+        %a{'data-bind': 'attr: { href: routes.show }, text: name'}
+        %small
+          by
+          %a.hidden-link{'data-bind': 'attr: { href: owner.routes.show }, text: owner.name'}
+      %hr

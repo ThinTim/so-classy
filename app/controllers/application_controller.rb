@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :current_user?
 
+  helper_method :topic_json
+
   def current_user
     if session[:user_id]
       @current_user = User.find(session[:user_id]) if @current_user.nil?
@@ -18,6 +20,45 @@ class ApplicationController < ActionController::Base
 
   def current_user?(user)
     return !user.nil? && current_user == user
+  end
+
+  def user_json(user)
+    user.as_json.merge({
+      gravatar_url: gravatar_url(user.email, size=50),
+      routes: {
+        show: user_path(user)
+      }
+    })
+  end
+
+  def comment_json(topic, comment)
+    comment.as_json.merge(
+      author: user_json(comment.author),
+      isAuthor: current_user?(comment.author),
+      routes: {
+        destroy: topic_comment_path(topic, comment)
+      }
+    )
+  end
+
+  def topic_json(topic)
+    topic.as_json.merge({
+      owner: user_json(topic.owner),
+      isTeaching: topic.teachers.include?(current_user),
+      isLearning: topic.students.include?(current_user),
+      member_count: topic.members.size,
+      teachers: topic.teachers.sort_by(&:display_name).map { |u| user_json(u) },
+      students: topic.students.sort_by(&:display_name).map { |u| user_json(u) },
+      comments: topic.comments.sort_by(&:created_at).reverse.map { |c| comment_json(topic, c) },
+      routes: {
+        show: topic_path(topic),
+        teach: add_teacher_topic_path(topic), 
+        stopTeaching: remove_teacher_topic_path(topic),
+        learn: add_student_topic_path(topic), 
+        stopLearning: remove_student_topic_path(topic),
+        comments: topic_comments_path(topic)
+      }
+    })
   end
 
   protected
@@ -33,4 +74,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def gravatar_url(email_address, size=80)
+    "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email_address.strip.downcase)}?s=#{size}&d=mm"
+  end
 end

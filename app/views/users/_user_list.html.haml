@@ -1,13 +1,12 @@
 %ul.media-list
-  -if users.empty?
+  %div{ 'data-bind': 'if: $data.length === 0' }
     .alert.alert-info No users to display
-  -else
-    -users.each do |user|
-      %li.media
-        .media-left
-          =gravatar_for(user, size=50)
-        .media-body
-          %h4.media-heading
-            %a{href: user_path(user)}= user.display_name
-          %p= (user.email if user.name)
+  %div{ 'data-bind': 'foreach: $data' }
+    %li.media
+      .media-left
+        %img{ 'data-bind': 'attr: { src: gravatar_url, alt: name + "\'s avatar", title: name + "\'s avatar" }' }
+      .media-body
+        %h4.media-heading
+          %a{'data-bind': 'attr: { href: routes.show }, text: display_name' }
+        %p{'data-bind': 'text: (name ? email : "")'}
 

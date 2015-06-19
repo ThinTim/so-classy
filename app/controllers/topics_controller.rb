@@ -88,7 +88,10 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(topic) }
-      format.json { render json: topic.teachers }
+      format.json { 
+        hash = { member_count: topic.members.size , teachers: topic.teachers.map { |u| user_json(u) } }
+        render json: hash
+      }
     end
   rescue ActiveRecord::RecordInvalid
     render nothing: true, status: 409
@@ -101,7 +104,10 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(topic) }
-      format.json { render json: topic.teachers }
+      format.json { 
+        hash = { member_count: topic.members.size , teachers: topic.teachers.map { |u| user_json(u) } }
+        render json: hash
+      }
     end
   end
 
@@ -112,7 +118,10 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(topic) }
-      format.json { render json: topic.students }
+      format.json { 
+        hash = { member_count: topic.members.size , students: topic.students.map { |u| user_json(u) } }
+        render json: hash
+      }
     end
   rescue ActiveRecord::RecordInvalid
     render nothing: true, status: 409
@@ -125,7 +134,10 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(topic) }
-      format.json { render json: topic.students }
+      format.json { 
+        hash = { member_count: topic.members.size , students: topic.students.map { |u| user_json(u) } }
+        render json: hash
+      }
     end
   end
 
@@ -145,23 +157,6 @@ private
       flash[:error] = 'Can not update the selected topic'
       redirect_to :root
     end
-  end
-
-  def topic_json(topic)
-    topic.as_json.merge({
-      owner: topic.owner.as_json.merge({ routes: { show: user_path(topic.owner) } }),
-      isTeaching: topic.teachers.include?(current_user),
-      isLearning: topic.students.include?(current_user),
-      teacherCount: topic.teachers.size,
-      studentCount: topic.students.size,
-      routes: {
-        show: topic_path(topic),
-        teach: add_teacher_topic_path(topic), 
-        stopTeaching: remove_teacher_topic_path(topic),
-        learn: add_student_topic_path(topic), 
-        stopLearning: remove_student_topic_path(topic)
-      }
-    })
   end
 
 end

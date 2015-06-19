@@ -46,7 +46,4 @@ Rails.application.configure do
 
   #Set up google analytics
   config.google_analytics_id = nil
-
-  #Set up react-rails
-  config.react.variant = :development
 end

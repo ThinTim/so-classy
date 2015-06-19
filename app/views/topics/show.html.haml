@@ -17,61 +17,71 @@
       %p= simple_format(@topic.description)
 
   .row.topic-actions
-    .col-xs-6
-      -if @topic.teachers.include? current_user
-        = form_tag(remove_teacher_topic_path(@topic)) do |form|
-          %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Stop Volunteering
-      -else
-        = form_tag(add_teacher_topic_path(@topic)) do |form|
-          %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Volunteer to Teach
-
-    .col-xs-6
-      -if @topic.students.include? current_user
-        = form_tag(remove_student_topic_path(@topic)) do |form|
-          %button.btn.btn-lg.btn-block.btn-secondary{type: "submit"} Unenroll
-      -else
-        = form_tag(add_student_topic_path(@topic)) do |form|
-          %button.btn.btn-lg.btn-block.btn-primary{type: "submit"} Enroll as Student
+    .col-sm-6.col-xs-12
+      %teach-button{ params: '{ collectionName: "Teacher", collection: teachers, joinFunction: teach, leaveFunction: stopTeaching }' }
+    .col-sm-6.col-xs-12
+      %learn-button{ params: '{ collectionName: "Student", collection: students, joinFunction: learn, leaveFunction: stopLearning }' }
 
   .row
     .col-xs-12
       %h2 
         Members
-        %small= "(#{@topic.members.size})"
-        %a.btn.btn-sm.btn-default{href: '#member-list', 'data-toggle' => 'collapse'} Show/Hide Members
+        %small{ 'data-bind': 'text: "(" + memberCount() + ")"' }
+        %a.btn.btn-sm.btn-default{ 'data-bind': 'click: toggleMembersVisible, text: (membersVisible() ? "Hide Members" : "Show Members")' }
 
-      .row.collapse#member-list
-        .col-xs-6
+      .row{'data-bind': 'visible: membersVisible'}
+        .col-sm-6.col-xs-12
           .panel.panel-default
             .panel-heading
               %h3.panel-title
                 Teachers
-                %small= "(#{@topic.teachers.size})"
+                %small{ 'data-bind': 'text: "(" + teachers().length + ")"' }
             .panel-body
-              = render partial: 'users/user_list', locals: { users: @topic.teachers }
-        .col-xs-6
+              .row
+                .col-xs-12.loadmaskable
+                  %div{ 'data-bind': 'if: teachers.isUpdating' }
+                    .loadmask
+                      %p.loadmask-message Updating...
+                  %div{ 'data-bind': 'with: teachers' }
+                    = render partial: 'users/user_list'
+            
+        .col-sm-6.col-xs-12
           .panel.panel-default
             .panel-heading
               %h3.panel-title
                 Students
-                %small= "(#{@topic.students.size})"
+                %small{ 'data-bind': 'text: "(" + students().length + ")"' }
             .panel-body
-              = render partial: 'users/user_list', locals: { users: @topic.students }
+              .row
+                .col-xs-12.loadmaskable
+                  %div{ 'data-bind': 'if: students.isUpdating' }
+                    .loadmask
+                      %p.loadmask-message Updating...
+                  %div{ 'data-bind': 'with: students' }
+                    = render partial: 'users/user_list'
 
   .row
     .col-xs-12
       %h2 
         Comments
-        %small= "(#{@topic.comments.size})"
-        %a.btn.btn-sm.btn-default{href: '#comment-form', 'data-toggle' => 'collapse'} Add a comment
-      .collapse#comment-form
-        = form_for [@topic, Comment.new] do |form|
-          .form-group
-            = form.label(:body, 'Comment', class: 'control-label')
-            = form.text_area(:body, class: 'form-control')
-          .form-group
-            %button.btn.btn-primary{type: "submit"} Submit
+        %small{ 'data-bind': 'text: "(" + comments().length + ")"' }
+      .row
+        .form-group.col-xs-12
+          %label.control-label{for: 'comment-body'} Comment
+          %textarea.form-control{id: 'comment-body', 'data-bind': 'textInput: newComment.body'}
+        .form-group.col-sm-3.col-sm-offset-9.col-xs-4.col-xs-offset-8
+          %button.btn.btn-block.btn-primary{ 'data-bind': 'click: createComment' } Submit
 
       .panel.panel-default
         .panel-body
-          = render partial: 'comments/comment_list', locals: { topic: @topic, comments: @topic.comments }
+          .row
+            .col-xs-12.loadmaskable
+              %div{ 'data-bind': 'if: comments.isUpdating' }
+                .loadmask
+                  %p.loadmask-message Updating...
+              %div{ 'data-bind': 'with: comments' }
+                = render partial: 'comments/comment_list'
+
+:javascript
+  var model = new TopicViewModel(#{topic_json(@topic).to_json});
+  ko.applyBindings(model);

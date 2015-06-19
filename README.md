@@ -2,7 +2,7 @@
 
 SoClassy is a web application designed to be deployed within an organisation to facilitate knowledge transfer and shared learning.
 
-The application consists of a basic Rails 4 app, with a few ReactJS components on the front end for improved UX.
+The application consists of a basic Rails 4 app, with KnockoutJS components added to the front end for improved UX.
 
 ## Configuration
 
