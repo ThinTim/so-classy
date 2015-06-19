@@ -4,7 +4,10 @@
       .pull-right
         -if current_user? @user
           = link_to 'Edit', edit_user_path(@user), class: 'btn btn-default'
-        = link_to 'Back', topics_path, class: 'btn btn-default'
+      = render 'application/back_button'
+
+  .row
+    .col-xs-12
       %h1
         .pull-left
           .thumbnail

@@ -24,13 +24,6 @@ describe 'topics/show.html.haml', type: :view do
 
     expect(rendered).to include 'Yep, it\'s a topic'
   end
-  
-
-  it 'should have a back to topics button' do
-    render
-
-    assert_select('a[href="/topics"]')
-  end
 
   it 'should list teachers' do
     topic.students = []

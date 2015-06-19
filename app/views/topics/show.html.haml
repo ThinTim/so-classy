@@ -4,14 +4,16 @@
       .pull-right
         -if current_user? @topic.owner
           = link_to 'Edit', edit_topic_path(@topic), class: 'btn btn-default'
-        = link_to 'Back', topics_path, class: 'btn btn-default'
+      =render 'application/back_button'
+
+  .row
+    .col-xs-12
       %h1
         = @topic.name
         %small
           -if @topic.owner
             by
             %a.hidden-link{href: user_path(@topic.owner)}= @topic.owner.display_name
-    .col-xs-12
       %p= simple_format(@topic.description)
 
   .row.topic-actions

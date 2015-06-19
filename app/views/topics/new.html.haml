@@ -1,4 +1,11 @@
 .topics
+  .row
+    .col-xs-12
+      =render 'application/back_button'
+
+
+  %h1 Create a Topic
+
   =form_for :topic, url: topics_path do |form|
     .form-group
       = form.label(:name, class: 'control-label')

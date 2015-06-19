@@ -1,6 +1,8 @@
 .topics
-  .pull-right
-    = link_to 'Back', topic_path(@topic), class: 'btn btn-default'
+  .row
+    .col-xs-12
+      =render 'application/back_button'
+  
 
   %h1= @topic.name
 
