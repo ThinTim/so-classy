@@ -1,0 +1,22 @@
+.loadmaskable {
+  position: relative;
+
+  .loadmask {
+    pointer-events: none;
+    background: rgba($gray-lighter, 0.8);
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+
+    .loadmask-message {
+      position: absolute;
+      top: 45%; //Looks a bit nicer than 50%
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
