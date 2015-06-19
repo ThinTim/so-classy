@@ -63,7 +63,7 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { :host => ENV['HOST_URL'] }
+  config.action_mailer.default_url_options = { :host => ENV.fetch('HOST_URL') }
   config.action_mailer.smtp_settings = {
       :address        => 'smtp.sendgrid.net',
       :port           => '587',
@@ -88,7 +88,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Control who can access SoClassy
-  config.user_email_domain = ENV['USER_EMAIL_DOMAIN'] || '.*'
+  config.user_email_domain = ENV.fetch('USER_EMAIL_DOMAIN')
 
   #Set up google analytics
   config.google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']

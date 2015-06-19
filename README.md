@@ -15,6 +15,6 @@ By default, the application is set up to be deployed via Heroku with the followi
 
 The following custom environment variables should be set in order for the application to function correctly:
 
-- HOST_URL (required) (set to 'yourdomain.com', otherwise urls cannot be generated in emails sent by the application)
-- USER_EMAIL_DOMAIN (optional) (set to 'yourdomain.com' to limit signups to users who have an email address within your organisation) 
+- HOST_URL (required) (set to `yourappurl.com`, otherwise urls cannot be generated in emails sent by the application)
+- USER_EMAIL_DOMAIN (required) (set to `example.com` to limit signups to users who have an '@example.com' email address. Use `.*` to allow any domain.) 
 - GOOGLE_ANALYTICS_ID (optional)
