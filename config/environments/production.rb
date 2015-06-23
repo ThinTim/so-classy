@@ -92,7 +92,4 @@ Rails.application.configure do
 
   #Set up google analytics
   config.google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']
-
-  #Set up react-rails
-  config.react.variant = :production
 end
