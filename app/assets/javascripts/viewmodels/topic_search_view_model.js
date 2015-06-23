@@ -15,7 +15,7 @@ function TopicSearchViewModel() {
       sort: self.searchParams.sort().property, 
       direction: self.searchParams.sort().direction 
     };
-  }).extend({ rateLimit: 300, method: "notifyWhenChangesStop" });
+  }).extend({ rateLimit: { timeout: 300, method: "notifyWhenChangesStop" } });
 
   self.searchData.subscribe(function() {
     self.search();
