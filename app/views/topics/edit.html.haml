@@ -1,7 +1,7 @@
 .topics
   .row
     .col-xs-12
-      =render 'application/back_button'
+      %a.btn.btn-default{ href: topic_path(@topic) } Back to topic
   
 
   %h1= @topic.name

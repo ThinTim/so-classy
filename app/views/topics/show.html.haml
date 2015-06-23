@@ -4,7 +4,7 @@
       .pull-right
         -if current_user? @topic.owner
           = link_to 'Edit', edit_topic_path(@topic), class: 'btn btn-default'
-      =render 'application/back_button'
+      %a.btn.btn-default{ href: topics_path } Back to topics
 
   .row
     .col-xs-12
