@@ -31,10 +31,13 @@ group :development do
   gem 'rack-livereload'
   gem 'web-console', '~> 2.0'
   gem 'byebug'
+  gem 'mailcatcher'
 end
 
 group :test do
   gem 'assert_difference'
+  gem 'capybara'
+  gem 'byebug'
 end
 
 group :production do
