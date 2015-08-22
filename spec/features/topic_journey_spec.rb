@@ -1,15 +1,30 @@
 require 'rails_helper'
 
-xdescribe 'topic', :type => :feature do
+describe 'topic journey', type: :feature do
   let(:user) { User.create!(email: 'jona@example.com', token: SecureRandom.hex) }
   let(:create_a_topic_link) { find('a[data-name="create-a-topic-link"]') }
 
-  it 'is created' do
+  it do
+    login
+    create_a_topic
+    send_an_email
+  end
+
+  def login
     visit "/sessions/#{user.id}/authenticate?token=#{user.token}"
+  end
+
+  def create_a_topic
     create_a_topic_link.click
     fill_in 'topic_name', with: 'Test Driven Development'
     fill_in 'topic_description', with: 'Building applications by writing tests before implementation'
     click_button 'Save'
-    expect(page).to have_text "Test Driven Development by #{user.email}"
+  end
+
+  def send_an_email
+    fill_in 'Comment', with: "We're in a tight spot!"
+    check 'Email this comment to members'
+    click_button 'Submit'
+    expect(page).to have_text "We're in a tight spot!"
   end
 end
