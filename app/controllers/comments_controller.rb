@@ -20,7 +20,7 @@ class CommentsController < ApplicationController
     topic.comments << comment
     topic.save!
 
-    puts 'SENDING EMAIL' if comment_params[:sendEmail] == 'true'
+    UserMailer.email_comment(comment, topic).deliver_later if comment_params[:sendEmail] == 'true'
 
     respond_to do |format|
       format.html { redirect_to topic }

@@ -33,25 +33,45 @@ describe CommentsController, type: :controller do
   end
 
   describe 'create' do
-    it 'should add the comment to the topic' do
-      assert_difference '@main_topic.comments.size' do
-        post :create, topic_id: @main_topic.id, comment: { body: 'The body' }
+    let(:topic) { Topic.create!(name: 'Topic Creation for Dummies') }
+    let(:teacher) { User.create!(name: 'Teacher', email: 'teacher@example.com') }
+    before(:each) { topic.teachers << teacher; topic.save! }
 
-        @main_topic.reload
+    it 'should add the comment to the topic' do
+      assert_difference 'topic.comments.size' do
+        post :create, topic_id: topic.id, comment: { body: 'The body' }
+
+        topic.reload
       end
     end      
 
     it 'should redirect to topic#show' do
-      post :create, topic_id: @main_topic.id, comment: { body: 'The body' }
+      post :create, topic_id: topic.id, comment: { body: 'The body' }
       
-      assert_redirected_to @main_topic
+      assert_redirected_to topic
     end
 
     context 'when requesting json' do
       it 'should return the updated comment list as json' do
-        post :create, format: :json, topic_id: @main_topic.id, comment: { body: 'The body' }
+        post :create, format: :json, topic_id: topic.id, comment: { body: 'The body' }
       
-        expect(JSON.parse(response.body).size).to eq 2
+        expect(JSON.parse(response.body).size).to eq 1
+      end
+    end
+
+    context 'when send email is checked' do
+      it 'sends a comment email' do
+        assert_difference 'ActionMailer::Base.deliveries.size', +1 do
+          post :create, format: :json, topic_id: topic.id, comment: { body: 'The body', sendEmail: 'true' }
+        end
+      end
+    end
+
+    context 'when send email is NOT checked' do
+      it 'does not send a comment email' do
+        assert_difference 'ActionMailer::Base.deliveries.size', 0 do
+          post :create, format: :json, topic_id: topic.id, comment: { body: 'The body', sendEmail: 'false' }
+        end
       end
     end
   end
