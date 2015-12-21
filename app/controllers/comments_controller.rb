@@ -14,11 +14,13 @@ class CommentsController < ApplicationController
   def create
     topic = Topic.find(params[:topic_id])
 
-    comment = Comment.new(params.require(:comment).permit(:body))
+    comment = Comment.new(body: comment_params[:body])
     comment.author = current_user
 
     topic.comments << comment
     topic.save!
+
+    puts 'SENDING EMAIL' if comment_params[:sendEmail] == 'true'
 
     respond_to do |format|
       format.html { redirect_to topic }
@@ -48,6 +50,10 @@ class CommentsController < ApplicationController
   end
 
   private
+
+  def comment_params
+    params.require(:comment).permit(:body, :sendEmail)
+  end
 
   def correct_user
     comment = Comment.find(params[:id])

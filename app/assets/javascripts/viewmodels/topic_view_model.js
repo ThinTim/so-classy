@@ -26,6 +26,7 @@ function TopicViewModel(topic) {
       });
     });
   }
+
   self.stopTeaching = function() {
     utils.asyncUpdate(self.teachers.isUpdating, function() {
       return server.send('POST', topic.routes.stopTeaching, null).then(function(response) {
@@ -51,6 +52,7 @@ function TopicViewModel(topic) {
       });
     });
   }
+
   self.stopLearning = function() {
     utils.asyncUpdate(self.students.isUpdating, function() {
       return server.send('POST', topic.routes.stopLearning, null).then(function(response) {
@@ -67,12 +69,18 @@ function TopicViewModel(topic) {
   self.comments.isUpdating = ko.observable(false);
 
   self.newComment = {
-    body: ko.observable('')
+    body: ko.observable(''),
+    sendEmail: ko.observable(false)
   }
 
   self.createComment = function() {
-    var data = { comment: { body: self.newComment.body() } };
-    
+    var data = {
+      comment: {
+        body: self.newComment.body(),
+        sendEmail: self.newComment.sendEmail()
+      }
+    };
+
     self.newComment.body('');
 
     utils.asyncUpdate(self.comments.isUpdating, function() {
@@ -81,6 +89,7 @@ function TopicViewModel(topic) {
       });
     });
   }
+
   self.deleteComment = function(comment) {
     utils.asyncUpdate(self.comments.isUpdating, function() {
       return server.send('POST', comment.routes.destroy, { '_method':'delete' }).then(function(response) {

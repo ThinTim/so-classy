@@ -70,8 +70,8 @@
           %label.control-label{for: 'comment-body'} Comment
           %textarea.form-control{id: 'comment-body', 'data-bind': 'textInput: newComment.body'}
         .form-group.col-sm-3.col-sm-offset-9.col-xs-4.col-xs-offset-8.text-right
-          = label_tag 'email-comment-to-members', 'Email'
-          = check_box_tag 'email-comment-to-members', true, false, class: 'email-checkbox-tag'
+          %label.control-label{for: 'comment-send-email-flag'} Email
+          %input.send-email-checkbox{type: 'checkbox', id: 'comment-send-email-flag', 'data-bind': 'checked: newComment.sendEmail'}
           %button.btn.btn-block.btn-primary{ 'data-bind': 'click: createComment' } Submit
 
       .panel.panel-default
