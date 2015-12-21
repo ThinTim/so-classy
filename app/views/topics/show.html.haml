@@ -44,7 +44,7 @@
                       %p.loadmask-message Updating...
                   %div{ 'data-bind': 'with: teachers' }
                     = render partial: 'users/user_list'
-            
+
         .col-sm-6.col-xs-12
           .panel.panel-default
             .panel-heading
@@ -69,9 +69,9 @@
         .form-group.col-xs-12
           %label.control-label{for: 'comment-body'} Comment
           %textarea.form-control{id: 'comment-body', 'data-bind': 'textInput: newComment.body'}
-        .form-group.col-sm-3.col-sm-offset-9.col-xs-4.col-xs-offset-8
-          = label_tag 'email-comment-to-members', 'Email this comment to members'
-          = check_box_tag 'email-comment-to-members'
+        .form-group.col-sm-3.col-sm-offset-9.col-xs-4.col-xs-offset-8.text-right
+          = label_tag 'email-comment-to-members', 'Email'
+          = check_box_tag 'email-comment-to-members', true, false, class: 'email-checkbox-tag'
           %button.btn.btn-block.btn-primary{ 'data-bind': 'click: createComment' } Submit
 
       .panel.panel-default

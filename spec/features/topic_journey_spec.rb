@@ -7,7 +7,7 @@ describe 'topic journey', type: :feature do
   it do
     login
     create_a_topic
-    send_an_email
+    comment_with_email
   end
 
   def login
@@ -21,9 +21,9 @@ describe 'topic journey', type: :feature do
     click_button 'Save'
   end
 
-  def send_an_email
+  def comment_with_email
     fill_in 'Comment', with: "We're in a tight spot!"
-    check 'Email this comment to members'
+    check 'Email'
     click_button 'Submit'
     expect(page).to have_text "We're in a tight spot!"
   end
