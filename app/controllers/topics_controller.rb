@@ -24,12 +24,12 @@ class TopicsController < ApplicationController
 
     @topics = Topic.where('lower(name) LIKE ?', "%#{query[:name]}%").sort_by(&sort)
 
-    if(direction == :descending)
+    if direction == :descending
       @topics = @topics.reverse
     end
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @topics.map { |t| topic_json(t) } }
     end
   end

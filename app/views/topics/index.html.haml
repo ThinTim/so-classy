@@ -2,7 +2,7 @@
   .row
     .col-xs-12
       .pull-right
-        %a.btn.btn-primary{href: new_topic_path} 
+        %a.btn.btn-primary{ href: new_topic_path }
           %span.glyphicon.glyphicon-plus
           Create a Topic
 
@@ -27,11 +27,11 @@
         .loadmask
           %p.loadmask-message Updating...
 
-      .div{'data-bind': 'with: topics'}
+      .div{'data-bind': 'with: topics' }
         =render 'topic_list' 
 
 
-  %a.btn.btn-lg.btn-block.btn-primary{href: new_topic_path, 'data-name' => 'create-a-topic-link'}
+  %a.btn.btn-lg.btn-block.btn-primary{ href: new_topic_path, 'data-name' => 'create-a-topic-link' }
     %span.glyphicon.glyphicon-plus
     Create a Topic
 

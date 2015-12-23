@@ -7,7 +7,7 @@ function TopicSearchViewModel() {
   self.searchParams = {
     name: ko.observable(''),
     sort: ko.observable({ property: 'popularity', direction: 'descending' })
-  }  
+  };
   
   self.searchData = ko.pureComputed(function() {
     return { 
@@ -28,7 +28,7 @@ function TopicSearchViewModel() {
         self.topics(topicModels);
       });
     });
-  }
+  };
 
   self.onEnter = function(d, e) {
     if(e.keyCode == 13) {

@@ -6,12 +6,13 @@ function TopicViewModel(topic) {
   self.owner = topic.owner;
   self.routes = topic.routes;
 
-  //MEMBERS
+  // MEMBERS
+
   self.membersVisible = ko.observable(false);
   self.toggleMembersVisible = function() { self.membersVisible(!self.membersVisible()); }
   self.memberCount = ko.observable(topic.member_count);
 
-  //TEACHERS
+  // TEACHERS
 
   self.teachers = ko.observable(topic.teachers);
   self.teachers.includesCurrentUser = ko.observable(topic.isTeaching);
@@ -25,7 +26,7 @@ function TopicViewModel(topic) {
         self.teachers.includesCurrentUser(true);
       });
     });
-  }
+  };
 
   self.stopTeaching = function() {
     utils.asyncUpdate(self.teachers.isUpdating, function() {
@@ -35,9 +36,9 @@ function TopicViewModel(topic) {
         self.teachers.includesCurrentUser(false);
       });
     });
-  }
+  };
 
-  //STUDENTS
+  // STUDENTS
 
   self.students = ko.observable(topic.students);
   self.students.includesCurrentUser = ko.observable(topic.isLearning);
@@ -51,7 +52,7 @@ function TopicViewModel(topic) {
         self.students.includesCurrentUser(true);
       });
     });
-  }
+  };
 
   self.stopLearning = function() {
     utils.asyncUpdate(self.students.isUpdating, function() {
@@ -61,9 +62,9 @@ function TopicViewModel(topic) {
         self.students.includesCurrentUser(false);
       });
     });
-  }
+  };
 
-  //COMMENTS
+  // COMMENTS
 
   self.comments = ko.observable(topic.comments);
   self.comments.isUpdating = ko.observable(false);
@@ -71,7 +72,7 @@ function TopicViewModel(topic) {
   self.newComment = {
     body: ko.observable(''),
     sendEmail: ko.observable(false)
-  }
+  };
 
   self.createComment = function() {
     var data = {
@@ -88,7 +89,7 @@ function TopicViewModel(topic) {
         self.comments(response);
       });
     });
-  }
+  };
 
   self.deleteComment = function(comment) {
     utils.asyncUpdate(self.comments.isUpdating, function() {
