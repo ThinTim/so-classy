@@ -8,8 +8,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by_email(params[:email])
-    user = User.create!(email: params[:email]) if user.nil?
+    email = params.require(:email).strip.downcase
+
+    user = User.find_by_email(email)
+    user = User.create!(email: email) if user.nil?
     user.token = SecureRandom.hex
     user.save!
 

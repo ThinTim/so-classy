@@ -129,7 +129,7 @@ RSpec.describe SessionsController, type: :controller do
 
       it 'should not create user' do
         assert_difference 'User.count', 0 do
-          post :create, email: 'dave@example.com'
+          post :create, email: 'DAVE@example.com '
         end
       end
 

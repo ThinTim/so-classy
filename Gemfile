@@ -30,13 +30,15 @@ group :development do
   gem 'guard-livereload', '~> 2.4', require: false
   gem 'rack-livereload'
   gem 'web-console', '~> 2.0'
-  gem 'byebug'
   gem 'mailcatcher'
 end
 
 group :test do
   gem 'assert_difference'
   gem 'capybara'
+end
+
+group :test, :development do
   gem 'byebug'
 end
 
